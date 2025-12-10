@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|c:\\users\\kloda\\onedrive\\desktop\\web_project2\\web_project\\data\\identity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|solutionrelative:data\\identity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|c:\\users\\kloda\\onedrive\\desktop\\web_project2\\web_project\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
       "RelativeMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|solutionrelative:.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
@@ -60,6 +64,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Identity.cs",
+              "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Data\\Identity.cs",
+              "RelativeDocumentMoniker": "Data\\Identity.cs",
+              "ToolTip": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Data\\Identity.cs",
+              "RelativeToolTip": "Data\\Identity.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-10T20:23:05.285Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": ".gitignore",
               "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\.gitignore",
               "RelativeDocumentMoniker": ".gitignore",
@@ -72,7 +89,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Views\\Home\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
@@ -80,12 +97,11 @@
               "RelativeToolTip": "Views\\Home\\Index.cshtml",
               "ViewState": "AQIAADwBAAAAAAAAAAAzwE0BAAAGAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-09T13:43:06.639Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-09T13:43:06.639Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
@@ -93,12 +109,11 @@
               "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
               "ViewState": "AQIAACwAAAAAAAAAAAA0wDUAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-09T13:40:05.535Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-09T13:40:05.535Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "AppointmentsController.cs",
               "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_API\\Controllers\\AppointmentsController.cs",
               "RelativeDocumentMoniker": "..\\Web_API\\Controllers\\AppointmentsController.cs",
@@ -106,12 +121,11 @@
               "RelativeToolTip": "..\\Web_API\\Controllers\\AppointmentsController.cs",
               "ViewState": "AQIAABkAAAAAAAAAAAA8wOwAAABDAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T09:00:32.567Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-09T09:00:32.567Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "TrainerAvailabilitiesController.cs",
               "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_API\\Controllers\\TrainerAvailabilitiesController.cs",
               "RelativeDocumentMoniker": "..\\Web_API\\Controllers\\TrainerAvailabilitiesController.cs",
@@ -119,12 +133,11 @@
               "RelativeToolTip": "..\\Web_API\\Controllers\\TrainerAvailabilitiesController.cs",
               "ViewState": "AQIAAJgAAAAAAAAAAAAIwK0AAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T08:51:05.559Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-09T08:51:05.559Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "TrainerSkillsController.cs",
               "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_API\\Controllers\\TrainerSkillsController.cs",
               "RelativeDocumentMoniker": "..\\Web_API\\Controllers\\TrainerSkillsController.cs",
@@ -132,12 +145,11 @@
               "RelativeToolTip": "..\\Web_API\\Controllers\\TrainerSkillsController.cs",
               "ViewState": "AQIAABkAAAAAAAAAAAA8wLIAAAAgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T07:30:39.012Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-09T07:30:39.012Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "ServicesController.cs",
               "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_API\\Controllers\\ServicesController.cs",
               "RelativeDocumentMoniker": "..\\Web_API\\Controllers\\ServicesController.cs",
@@ -145,12 +157,11 @@
               "RelativeToolTip": "..\\Web_API\\Controllers\\ServicesController.cs",
               "ViewState": "AQIAADAAAAAAAAAAAAAzwFAAAABNAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T07:00:49.432Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-09T07:00:49.432Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "TrainersController.cs",
               "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_API\\Controllers\\TrainersController.cs",
               "RelativeDocumentMoniker": "..\\Web_API\\Controllers\\TrainersController.cs",
@@ -158,12 +169,11 @@
               "RelativeToolTip": "..\\Web_API\\Controllers\\TrainersController.cs",
               "ViewState": "AQIAAHwAAAAAAAAAAAAywH0AAAA/AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T06:10:10.673Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-09T06:10:10.673Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "PeopleController.cs",
               "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_API\\Controllers\\PeopleController.cs",
               "RelativeDocumentMoniker": "..\\Web_API\\Controllers\\PeopleController.cs",
@@ -171,12 +181,11 @@
               "RelativeToolTip": "..\\Web_API\\Controllers\\PeopleController.cs",
               "ViewState": "AQIAAE0AAAAAAAAAAAA7wF8AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-08T11:34:09.755Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-08T11:34:09.755Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "MembersController.cs",
               "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_API\\Controllers\\MembersController.cs",
               "RelativeDocumentMoniker": "..\\Web_API\\Controllers\\MembersController.cs",
@@ -184,8 +193,7 @@
               "RelativeToolTip": "..\\Web_API\\Controllers\\MembersController.cs",
               "ViewState": "AQIAAF8AAAAAAAAAAAAywLkAAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-08T11:07:07.875Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-08T11:07:07.875Z"
             }
           ]
         },
