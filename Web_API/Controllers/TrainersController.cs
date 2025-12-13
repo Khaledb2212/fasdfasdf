@@ -14,7 +14,7 @@ namespace Web_API.Controllers
     [ApiController]
     public class TrainersController : ControllerBase
     {
-        private readonly ProjectDbContext _context;
+        private readonly Web_API.Models.ProjectDbContext _context;
 
         public TrainersController(ProjectDbContext context)
         {
@@ -97,11 +97,11 @@ namespace Web_API.Controllers
             {
                 if (trainer.person is not null)// i do not mean that it is null in the database, but it isn`t null in the json file
                 {
-                    await _context.Trainers.AddAsync(trainer);
+
                 }
                 else
                 {
-                    bool ExistingPerson = await _context.Person.AnyAsync(x => x.PersonID == trainer.PersonID);
+                    bool ExistingPerson = await _context.People.AnyAsync(x => x.PersonID == trainer.PersonID);
                     if (!ExistingPerson)
                     {
                         return BadRequest($"PersonID {trainer.PersonID} does not exist. And It has not been created with trainer in the first step, in the if block.");
@@ -114,6 +114,7 @@ namespace Web_API.Controllers
                     }                    
                 }
                 await _context.Trainers.AddAsync(trainer);
+                await _context.SaveChangesAsync();
                 return CreatedAtAction("GetTrainer", new { id = trainer.TrainerID }, trainer);
             }
             catch (Exception ex)
@@ -158,10 +159,7 @@ namespace Web_API.Controllers
             {
                 existingTrainer.person.Firstname = trainer.person.Firstname;
                 existingTrainer.person.Lastname = trainer.person.Lastname;
-                existingTrainer.person.Email = trainer.person.Email;
                 existingTrainer.person.Phone = trainer.person.Phone;
-                existingTrainer.person.Username = trainer.person.Username;
-                existingTrainer.person.Password = trainer.person.Password;
                 // Role is usually not updated here to prevent security issues
             }
 

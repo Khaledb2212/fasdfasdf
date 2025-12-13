@@ -149,7 +149,7 @@ namespace Web_API.Controllers
                 }
                 else
                 {
-                    bool ExistingPerson = await _context.Person.AnyAsync(x => x.PersonID == member.PersonID);
+                    bool ExistingPerson = await _context.People.AnyAsync(x => x.PersonID == member.PersonID);
                     if(!ExistingPerson)
                     {
                         return BadRequest($"PersonID {member.PersonID} does not exist. And It has not been created with member in the first step, in the if block.");
@@ -190,7 +190,7 @@ namespace Web_API.Controllers
                 return BadRequest("ID mismatch or invalid data for member.");
             }
 
-            var ExistingMember = await _context.Members.Include(m => m.person).FirstOrDefaultAsync(x => x.PersonID == id);
+            var ExistingMember = await _context.Members.Include(m => m.person).FirstOrDefaultAsync(x => x.MemberID == id);
 
             if(ExistingMember is null)
             {
@@ -201,10 +201,7 @@ namespace Web_API.Controllers
             {
                 ExistingMember.person.Firstname = member.person.Firstname;
                 ExistingMember.person.Lastname = member.person.Lastname;
-                ExistingMember.person.Email = member.person.Email;
                 ExistingMember.person.Phone = member.person.Phone;
-                ExistingMember.person.Username = member.person.Username;
-                ExistingMember.person.Password = member.person.Password;
             }
 
             /*

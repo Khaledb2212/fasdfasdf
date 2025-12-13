@@ -12,3 +12,4 @@ C:\Users\kloda\OneDrive\Desktop\Web_Project2\DaataBaseLayer\obj\Debug\net8.0\ref
 C:\Users\kloda\OneDrive\Desktop\Web_Project2\DaataBaseLayer\obj\Debug\net8.0\DataBaseLayer.pdb
 C:\Users\kloda\OneDrive\Desktop\Web_Project2\DaataBaseLayer\obj\Debug\net8.0\DataBaseLayer.genruntimeconfig.cache
 C:\Users\kloda\OneDrive\Desktop\Web_Project2\DaataBaseLayer\obj\Debug\net8.0\ref\DataBaseLayer.dll
+C:\Users\kloda\OneDrive\Desktop\Web_Project2\DaataBaseLayer\obj\Debug\net8.0\DataBaseLayer.sourcelink.json

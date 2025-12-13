@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Web_API.Models
 {
     [Table("People")]
+    [Index(nameof(UserId), IsUnique = true)]
     public class Person
     {
         [Key]
@@ -20,43 +21,23 @@ namespace Web_API.Models
         [MaxLength(50, ErrorMessage = "Last name cannot exceed 50 characters.")]
         public string? Lastname { get; set; }
 
-        [Required(ErrorMessage = "Email is required.")]
-        [EmailAddress(ErrorMessage = "Invalid Email Address.")]
-        [MaxLength(100)]
-        public string? Email { get; set; }
 
         [Required(ErrorMessage = "Phone number is required.")]
         [Phone]
         [MaxLength(15, ErrorMessage = "Phone number is too long.")]
         public string? Phone { get; set; }
 
-        [Required(ErrorMessage = "Username is required.")]
-        [StringLength(20, MinimumLength = 3, ErrorMessage = "Username must be between 3 and 20 characters.")]
-        public string? Username { get; set; }
 
-        [Required(ErrorMessage = "Password is required.")]
-        [DataType(DataType.Password)] // Hides input in HTML forms
-        [StringLength(100, MinimumLength = 6, ErrorMessage = "Password must be at least 6 characters.")]
-        public string? Password { get; set; }
+        // Link to Identity (AspNetUsers.Id)
+        [Required]
+        [MaxLength(450)]
+        public string? UserId { get; set; }
 
-        
+
         public Person()
         {
 
         }
 
-        // Your existing constructor
-        public Person(int id, string firstname, string lastname, string email, string phone, string username, string password)
-        {
-            this.PersonID = id;
-            this.Firstname = firstname;
-            this.Lastname = lastname;
-            this.Email = email;
-            this.Phone = phone;
-            this.Username = username;
-            this.Password = password;
-        }
     }
-
-
 }

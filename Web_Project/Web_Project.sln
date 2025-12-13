@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web_API", "..\Web_API\Web_A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataBaseLayer", "..\DaataBaseLayer\DataBaseLayer.csproj", "{AC4C0006-BC4B-4C80-B814-19D1C6D09161}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared-keys", "shared-keys", "{C5487F11-DF11-42A1-9E10-534FD032A65D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Web_Project.Models;
 using Web_API.Models;
 
 namespace Web_API.Models
@@ -23,12 +22,12 @@ namespace Web_API.Models
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<TrainerAvailability> TrainerAvailabilities { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            //optionsBuilder.UseSqlServer("Server=.;Database=WebProjectDB;User Id=sa;Password=123456;TrustServerCertificate=True;");
-            optionsBuilder.UseSqlServer("Server=.;Database=WebProjectDB;User Id=sa;Password=123456;Encrypt=True;TrustServerCertificate=True;");
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    //optionsBuilder.UseSqlServer("Server=.;Database=WebProjectDB;User Id=sa;Password=123456;TrustServerCertificate=True;");
+        //    optionsBuilder.UseSqlServer("Server=.;Database=WebProjectDB;User Id=sa;Password=123456;Encrypt=True;TrustServerCertificate=True;");
 
-        }
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

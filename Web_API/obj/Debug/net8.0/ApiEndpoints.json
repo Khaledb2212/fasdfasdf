@@ -455,6 +455,52 @@
   },
   {
     "ContainingType": "Web_API.Controllers.PeopleController",
+    "Method": "GetAuthenticatedPerson",
+    "RelativePath": "api/People/GetAuthenticatedPerson",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "Web_API.Models.Person",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Web_API.Controllers.PeopleController",
+    "Method": "GetByUserId",
+    "RelativePath": "api/People/GetByUserId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "Web_API.Models.Person",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "Web_API.Controllers.PeopleController",
     "Method": "GetPeople",
     "RelativePath": "api/People/GetPeople",
     "HttpMethod": "GET",
@@ -527,8 +573,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "person",
-        "Type": "Web_API.Models.Person",
+        "Name": "dto",
+        "Type": "Web_API.DTOs.CreatePersonDto",
         "IsRequired": true
       }
     ],
