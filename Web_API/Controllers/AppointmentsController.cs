@@ -6,9 +6,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web_API.Models;
+using System.Security.Claims;
+using Web_API.DTOs;
+
 namespace Web_API.Controllers
+
 {
     //[Route("api/[controller]")]
+    //[Authorize]
     [Route("api/Appointments")]
     [ApiController]
     public class AppointmentsController : ControllerBase
@@ -263,6 +268,123 @@ namespace Web_API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error deleting appointment: " + ex.Message);
             }
+        }
+
+        [HttpPost("Book")]
+        public async Task<IActionResult> Book(BookAppointmentDto dto)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            // prevent cross-day bookings (because availability is day-based)
+            if (dto.StartAt.Date != dto.EndAt.Date)
+                return BadRequest("StartAt and EndAt must be on the same date.");
+
+            if (dto.StartAt >= dto.EndAt)
+                return BadRequest("StartAt must be < EndAt.");
+
+            // Current user => Member
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
+
+            var person = await _context.People.FirstOrDefaultAsync(p => p.UserId == userId);
+            if (person == null) return BadRequest("No Person profile found.");
+
+            var member = await _context.Members.FirstOrDefaultAsync(m => m.PersonID == person.PersonID);
+            if (member == null) return BadRequest("You are not registered as a Member.");
+
+            // Trainer must exist
+            var trainer = await _context.Trainers.FirstOrDefaultAsync(t => t.TrainerID == dto.TrainerId);
+            if (trainer == null) return BadRequest("Trainer does not exist.");
+
+            // Service must exist
+            bool serviceExists = await _context.Services.AnyAsync(s => s.ServiceID == dto.ServiceId);
+            if (!serviceExists) return BadRequest("Service does not exist.");
+
+            // Trainer must have that skill
+            bool trainerHasSkill = await _context.TrainerSkills.AnyAsync(ts =>
+                ts.TrainerId == dto.TrainerId && ts.ServiceId == dto.ServiceId);
+
+            if (!trainerHasSkill)
+                return BadRequest("Trainer does not offer this service.");
+
+            // Must be inside availability
+            int day = (int)dto.StartAt.DayOfWeek;
+
+            // Availability stores time in DateTime (fixed date). We compare using same fixed date.
+            var baseDate = new DateTime(2000, 1, 1);
+            var reqStart = baseDate.Add(dto.StartAt.TimeOfDay);
+            var reqEnd = baseDate.Add(dto.EndAt.TimeOfDay);
+
+            bool insideAvailability = await _context.TrainerAvailabilities.AnyAsync(a =>
+                a.TrainerId == dto.TrainerId &&
+                a.DayOfWeek == day &&
+                a.ServiceTypeId == dto.ServiceId &&
+                reqStart >= a.StartTime &&
+                reqEnd <= a.EndTime);
+
+            if (!insideAvailability)
+                return BadRequest("Requested time is outside trainer availability.");
+
+            // Prevent overlap (trainer)
+            bool trainerOverlap = await _context.Appointments.AnyAsync(a =>
+                a.TrainerID == dto.TrainerId &&
+                dto.StartAt < a.EndTime && dto.EndAt > a.StartTime);
+
+            if (trainerOverlap)
+                return Conflict("Trainer already has an appointment at this time.");
+
+            // Prevent overlap (member)
+            bool memberOverlap = await _context.Appointments.AnyAsync(a =>
+                a.MemberID == member.MemberID &&
+                dto.StartAt < a.EndTime && dto.EndAt > a.StartTime);
+
+            if (memberOverlap)
+                return Conflict("You already have an appointment at this time.");
+
+            // Create appointment
+            var appt = new Appointment
+            {
+                MemberID = member.MemberID,
+                TrainerID = dto.TrainerId,
+                ServiceID = dto.ServiceId,
+                StartTime = dto.StartAt,
+                EndTime = dto.EndAt
+            };
+
+            _context.Appointments.Add(appt);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Message = "Booked", appt.AppointmentID });
+        }
+
+        [HttpGet("MyAppointments")]
+        public async Task<IActionResult> MyAppointments()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
+
+            var person = await _context.People.FirstOrDefaultAsync(p => p.UserId == userId);
+            if (person == null) return BadRequest("No Person profile found.");
+
+            var member = await _context.Members.FirstOrDefaultAsync(m => m.PersonID == person.PersonID);
+            if (member == null) return BadRequest("You are not registered as a Member.");
+
+            var list = await _context.Appointments
+                .Where(a => a.MemberID == member.MemberID)
+                .Include(a => a.Trainer).ThenInclude(t => t.person)
+                .Include(a => a.Service)
+                .OrderByDescending(a => a.StartTime)
+                .Select(a => new
+                {
+                    a.AppointmentID,
+                    a.StartTime,
+                    a.EndTime,
+                    TrainerName = a.Trainer.person.Firstname + " " + a.Trainer.person.Lastname,
+                    ServiceName = a.Service.ServiceName
+                })
+                .ToListAsync();
+
+            return Ok(list);
         }
 
         private bool AppointmentExists(int id)

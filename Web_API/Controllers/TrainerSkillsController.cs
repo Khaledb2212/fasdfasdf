@@ -6,10 +6,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web_API.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using Web_API.DTOs;
+
 
 namespace Web_API.Controllers
 {
-   // [Route("api/[controller]")]
+    // [Route("api/[controller]")]
+    // [Authorize]
     [Route("api/TrainerSkills")]
     [ApiController]
     public class TrainerSkillsController : ControllerBase
@@ -233,6 +238,61 @@ namespace Web_API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error deleting skill: " + ex.Message);
             }
+        }
+
+        [HttpPost("AddMySkill", Name = "AddMySkill")]
+        public async Task<IActionResult> AddMySkill(AddMySkillDto dto)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
+
+            var person = await _context.People.FirstOrDefaultAsync(p => p.UserId == userId);
+            if (person == null) return BadRequest("No Person profile found for this user.");
+
+            var trainer = await _context.Trainers.FirstOrDefaultAsync(t => t.PersonID == person.PersonID);
+            if (trainer == null) return BadRequest("You are not registered as a Trainer.");
+
+            bool serviceExists = await _context.Services.AnyAsync(s => s.ServiceID == dto.ServiceId);
+            if (!serviceExists) return BadRequest($"ServiceID {dto.ServiceId} does not exist.");
+
+            bool alreadyExists = await _context.TrainerSkills.AnyAsync(ts =>
+                ts.TrainerId == trainer.TrainerID && ts.ServiceId == dto.ServiceId);
+
+            if (alreadyExists) return Conflict("You already have this skill.");
+
+            var trainerSkill = new TrainerSkill
+            {
+                TrainerId = trainer.TrainerID,
+                ServiceId = dto.ServiceId
+            };
+
+            _context.TrainerSkills.Add(trainerSkill);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Message = "Skill added", trainerSkill.Id });
+        }
+
+        [HttpGet("MySkills", Name = "MySkill")]
+        public async Task<IActionResult> MySkills()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
+
+            var person = await _context.People.FirstOrDefaultAsync(p => p.UserId == userId);
+            if (person == null) return BadRequest("No Person profile found for this user.");
+
+            var trainer = await _context.Trainers.FirstOrDefaultAsync(t => t.PersonID == person.PersonID);
+            if (trainer == null) return BadRequest("You are not registered as a Trainer.");
+
+            var skills = await _context.TrainerSkills
+                .Where(ts => ts.TrainerId == trainer.TrainerID)
+                .Include(ts => ts.service)
+                .Select(ts => new { ts.Id, ts.ServiceId, ServiceName = ts.service.ServiceName })
+                .ToListAsync();
+
+            return Ok(skills);
         }
 
         private bool TrainerSkillExists(int id)

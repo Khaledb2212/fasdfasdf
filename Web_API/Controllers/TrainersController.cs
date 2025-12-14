@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Web_API.DTOs;
 using Web_API.Models;
 
 namespace Web_API.Controllers
@@ -230,6 +233,41 @@ namespace Web_API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error deleting trainer: " + ex.Message);
             }
         }
+
+        [Authorize]
+        [HttpPost("RegisterMe", Name = "RegisterMeAsTrainer")]
+        public async Task<ActionResult<Trainer>> RegisterMe(CreateTrainerDto dto)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrWhiteSpace(userId))
+                return Unauthorized("No authenticated user.");
+
+            // 1) Find Person for this user
+            var person = await _context.People.FirstOrDefaultAsync(p => p.UserId == userId);
+            if (person == null)
+                return BadRequest("Person profile not found. Complete registration first.");
+
+            // 2) Prevent duplicate Trainer
+            bool alreadyTrainer = await _context.Trainers.AnyAsync(t => t.PersonID == person.PersonID);
+            if (alreadyTrainer)
+                return Conflict("You are already registered as a Trainer.");
+
+            // 3) Create Trainer linked to Person
+            var trainer = new Trainer
+            {
+                PersonID = person.PersonID,
+                ExpertiseAreas = dto.ExpertiseAreas,
+                Description = dto.Description
+            };
+
+            _context.Trainers.Add(trainer);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetTrainer), new { id = trainer.TrainerID }, trainer);
+        }
+
 
         private bool TrainerExists(int id)
         {

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web_API.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Web_API.Controllers
 {
@@ -264,6 +266,36 @@ namespace Web_API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error deleting member: " + ex.Message);
             }
+        }
+
+        [Authorize]
+        [HttpPost("RegisterMe", Name = "RegisterMeAsMember")]
+        public async Task<ActionResult<Member>> RegisterMe()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrWhiteSpace(userId))
+                return Unauthorized("No authenticated user.");
+
+            // 1) Find Person for this user
+            var person = await _context.People.FirstOrDefaultAsync(p => p.UserId == userId);
+            if (person == null)
+                return BadRequest("Person profile not found. Complete registration first.");
+
+            // 2) Prevent duplicate Member
+            bool alreadyMember = await _context.Members.AnyAsync(m => m.PersonID == person.PersonID);
+            if (alreadyMember)
+                return Conflict("You are already registered as a Member.");
+
+            // 3) Create Member linked to Person
+            var member = new Member
+            {
+                PersonID = person.PersonID
+            };
+
+            _context.Members.Add(member);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetMember), new { id = member.MemberID }, member);
         }
 
         private bool MemberExists(int id)
