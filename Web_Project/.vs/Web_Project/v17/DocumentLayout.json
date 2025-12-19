@@ -3,35 +3,35 @@
   "WorkspaceRootPath": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8B603FBB-4C70-4CD9-8AE2-79F55B8F3C60}|..\\Web_API\\Web_API.csproj|c:\\users\\kloda\\onedrive\\desktop\\web_project2\\web_api\\controllers\\trainerskillscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|c:\\users\\kloda\\onedrive\\desktop\\web_project2\\web_project\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|solutionrelative:controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8B603FBB-4C70-4CD9-8AE2-79F55B8F3C60}|..\\Web_API\\Web_API.csproj|c:\\users\\kloda\\onedrive\\desktop\\web_project2\\web_api\\controllers\\appointmentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|c:\\users\\kloda\\onedrive\\desktop\\web_project2\\web_project\\models\\trainerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|solutionrelative:models\\trainerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8B603FBB-4C70-4CD9-8AE2-79F55B8F3C60}|..\\Web_API\\Web_API.csproj|c:\\users\\kloda\\onedrive\\desktop\\web_project2\\web_api\\controllers\\traineravailabilitiescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|c:\\users\\kloda\\onedrive\\desktop\\web_project2\\web_project\\views\\admin\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|solutionrelative:views\\admin\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8B603FBB-4C70-4CD9-8AE2-79F55B8F3C60}|..\\Web_API\\Web_API.csproj|c:\\users\\kloda\\onedrive\\desktop\\web_project2\\web_api\\controllers\\trainerscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|c:\\users\\kloda\\onedrive\\desktop\\web_project2\\web_project\\views\\appointmentsmvc\\book.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|solutionrelative:views\\appointmentsmvc\\book.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|c:\\users\\kloda\\onedrive\\desktop\\web_project2\\web_project\\views\\admin\\trainers.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|solutionrelative:views\\admin\\trainers.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8B603FBB-4C70-4CD9-8AE2-79F55B8F3C60}|..\\Web_API\\Web_API.csproj|c:\\users\\kloda\\onedrive\\desktop\\web_project2\\web_api\\dtos\\availabletrainersrequestdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|c:\\users\\kloda\\onedrive\\desktop\\web_project2\\web_project\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|c:\\users\\kloda\\onedrive\\desktop\\web_project2\\web_project\\areas\\identity\\pages\\account\\register.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|solutionrelative:areas\\identity\\pages\\account\\register.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|c:\\users\\kloda\\onedrive\\desktop\\web_project2\\web_project\\controllers\\accountsetupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|solutionrelative:controllers\\accountsetupcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|c:\\users\\kloda\\onedrive\\desktop\\web_project2\\web_project\\controllers\\appointmentsmvccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|solutionrelative:controllers\\appointmentsmvccontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|c:\\users\\kloda\\onedrive\\desktop\\web_project2\\web_project\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|c:\\users\\kloda\\onedrive\\desktop\\web_project2\\web_project\\controllers\\profilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C0B80D5F-F01D-478C-8BAE-7C1DC41E00B9}|Web_Project.csproj|solutionrelative:controllers\\profilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -41,8 +41,22 @@
       "DocumentGroups": [
         {
           "DockedWidth": 202,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AdminController.cs",
+              "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Controllers\\AdminController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AdminController.cs",
+              "ToolTip": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Controllers\\AdminController.cs",
+              "RelativeToolTip": "Controllers\\AdminController.cs",
+              "ViewState": "AQIAAB8AAAAAAAAAAAAwwJYAAAAGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-19T13:25:06.009Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
@@ -57,112 +71,94 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TrainerSkillsController.cs",
-              "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_API\\Controllers\\TrainerSkillsController.cs",
-              "RelativeDocumentMoniker": "..\\Web_API\\Controllers\\TrainerSkillsController.cs",
-              "ToolTip": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_API\\Controllers\\TrainerSkillsController.cs",
-              "RelativeToolTip": "..\\Web_API\\Controllers\\TrainerSkillsController.cs",
-              "ViewState": "AQIAAKoAAAAAAAAAAAAowPMAAAAYAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-14T19:03:26.07Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "TrainerAvailabilitiesController.cs",
-              "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_API\\Controllers\\TrainerAvailabilitiesController.cs",
-              "RelativeDocumentMoniker": "..\\Web_API\\Controllers\\TrainerAvailabilitiesController.cs",
-              "ToolTip": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_API\\Controllers\\TrainerAvailabilitiesController.cs",
-              "RelativeToolTip": "..\\Web_API\\Controllers\\TrainerAvailabilitiesController.cs",
-              "ViewState": "AQIAAKEAAAAAAAAAAIBEwP0AAAAmAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-14T19:02:58.655Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "AvailableTrainersRequestDto.cs",
-              "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_API\\DTOs\\AvailableTrainersRequestDto.cs",
-              "RelativeDocumentMoniker": "..\\Web_API\\DTOs\\AvailableTrainersRequestDto.cs",
-              "ToolTip": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_API\\DTOs\\AvailableTrainersRequestDto.cs",
-              "RelativeToolTip": "..\\Web_API\\DTOs\\AvailableTrainersRequestDto.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAASAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-14T18:59:30.018Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 3,
               "Title": "TrainersController.cs",
               "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_API\\Controllers\\TrainersController.cs",
               "RelativeDocumentMoniker": "..\\Web_API\\Controllers\\TrainersController.cs",
               "ToolTip": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_API\\Controllers\\TrainersController.cs",
               "RelativeToolTip": "..\\Web_API\\Controllers\\TrainersController.cs",
-              "ViewState": "AQIAAPEAAAAAAAAAAAAowD0BAAAjAAAA",
+              "ViewState": "AQIAANEAAAAAAAAAAAAuwJUBAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-14T17:21:20.746Z"
+              "WhenOpened": "2025-12-19T18:27:21.025Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "Book.cshtml",
-              "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Views\\AppointmentsMvc\\Book.cshtml",
-              "RelativeDocumentMoniker": "Views\\AppointmentsMvc\\Book.cshtml",
-              "ToolTip": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Views\\AppointmentsMvc\\Book.cshtml",
-              "RelativeToolTip": "Views\\AppointmentsMvc\\Book.cshtml",
-              "ViewState": "AQIAABIAAAAAAAAAAAAAACsAAAAAAAAA",
+              "Title": "Trainers.cshtml",
+              "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Views\\Admin\\Trainers.cshtml",
+              "RelativeDocumentMoniker": "Views\\Admin\\Trainers.cshtml",
+              "ToolTip": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Views\\Admin\\Trainers.cshtml",
+              "RelativeToolTip": "Views\\Admin\\Trainers.cshtml",
+              "ViewState": "AQIAACcAAAAAAAAAAAAAAEwAAABDAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-14T11:10:10.737Z"
+              "WhenOpened": "2025-12-19T17:10:05.682Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Views\\Admin\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Admin\\Index.cshtml",
+              "ToolTip": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Views\\Admin\\Index.cshtml",
+              "RelativeToolTip": "Views\\Admin\\Index.cshtml",
+              "ViewState": "AQIAADQAAAAAAAAAAAA7wE8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-19T17:05:58.796Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AQIAALMAAAAAAAAAAAAuwMAAAAAwAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-19T17:03:36.935Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "AppointmentsController.cs",
-              "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_API\\Controllers\\AppointmentsController.cs",
-              "RelativeDocumentMoniker": "..\\Web_API\\Controllers\\AppointmentsController.cs",
-              "ToolTip": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_API\\Controllers\\AppointmentsController.cs",
-              "RelativeToolTip": "..\\Web_API\\Controllers\\AppointmentsController.cs",
-              "ViewState": "AQIAALoAAAAAAAAAAAAowG4BAAAlAAAA",
+              "Title": "TrainerDTO.cs",
+              "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Models\\TrainerDTO.cs",
+              "RelativeDocumentMoniker": "Models\\TrainerDTO.cs",
+              "ToolTip": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Models\\TrainerDTO.cs",
+              "RelativeToolTip": "Models\\TrainerDTO.cs",
+              "ViewState": "AQIAAAgAAAAAAAAAAAAswBQAAAAqAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-14T11:08:23.415Z"
+              "WhenOpened": "2025-12-19T16:56:54.65Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "AppointmentsMvcController.cs",
-              "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Controllers\\AppointmentsMvcController.cs",
-              "RelativeDocumentMoniker": "Controllers\\AppointmentsMvcController.cs",
-              "ToolTip": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Controllers\\AppointmentsMvcController.cs",
-              "RelativeToolTip": "Controllers\\AppointmentsMvcController.cs",
-              "ViewState": "AQIAAFIAAAAAAAAAAAAAwFsAAAAAAAAA",
+              "Title": "ProfileController.cs",
+              "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Controllers\\ProfileController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ProfileController.cs",
+              "ToolTip": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Controllers\\ProfileController.cs",
+              "RelativeToolTip": "Controllers\\ProfileController.cs",
+              "ViewState": "AQIAADcAAAAAAAAAAAAqwAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-14T10:59:55.214Z"
+              "WhenOpened": "2025-12-19T16:52:19.215Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "Register.cshtml.cs",
-              "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Areas\\Identity\\Pages\\Account\\Register.cshtml.cs",
-              "RelativeDocumentMoniker": "Areas\\Identity\\Pages\\Account\\Register.cshtml.cs",
-              "ToolTip": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Areas\\Identity\\Pages\\Account\\Register.cshtml.cs",
-              "RelativeToolTip": "Areas\\Identity\\Pages\\Account\\Register.cshtml.cs",
-              "ViewState": "AQIAAHEAAAAAAAAAAAA3wN8AAAA+AAAA",
+              "Title": "AccountSetupController.cs",
+              "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Controllers\\AccountSetupController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AccountSetupController.cs",
+              "ToolTip": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Controllers\\AccountSetupController.cs",
+              "RelativeToolTip": "Controllers\\AccountSetupController.cs",
+              "ViewState": "AQIAABkAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-14T09:29:08.933Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAAG4AAAAAAAAAAAAIwHwAAAAtAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-14T09:07:00.53Z"
+              "WhenOpened": "2025-12-19T13:49:14.722Z",
+              "EditorCaption": ""
             }
           ]
         },

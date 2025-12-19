@@ -157,8 +157,8 @@ namespace Web_API.Controllers
             bool isTrainerBusy = await _context.Appointments.AnyAsync(a =>
                 a.TrainerID == appointment.TrainerID &&
                 (
-                    (appointment.StartTime >= a.StartTime && appointment.StartTime < a.EndTime) || // Starts during another booking
-                    (appointment.EndTime > a.StartTime && appointment.EndTime <= a.EndTime)     // Ends during another booking
+                   appointment.StartTime < a.EndTime && appointment.EndTime > a.StartTime
+                // Ends during another booking
                 )
             );
 
@@ -272,98 +272,78 @@ namespace Web_API.Controllers
         }
 
         [HttpPost("Book")]
+        [Authorize]
         public async Task<IActionResult> Book(BookAppointmentDto dto)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            // prevent cross-day bookings (because availability is day-based)
-            if (dto.StartAt.Date != dto.EndAt.Date)
-                return BadRequest("StartAt and EndAt must be on the same date.");
+            // 1. Basic Validation
+            if (dto.StartAt == DateTime.MinValue)
+                return BadRequest("Error: The Date/Time was not received correctly.");
 
             if (dto.StartAt >= dto.EndAt)
-                return BadRequest("StartAt must be < EndAt.");
+                return BadRequest($"Error: Start time must be before End time.");
 
-            // Current user => Member
+            // 2. Identify the User (Member)
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
+            var member = await _context.Members
+                                       .Include(m => m.person)
+                                       .FirstOrDefaultAsync(m => m.person.UserId == userId);
 
-            var person = await _context.People.FirstOrDefaultAsync(p => p.UserId == userId);
-            if (person == null) return BadRequest("No Person profile found.");
+            if (member == null)
+                return Unauthorized("Error: You must be a registered Member to book.");
 
-            var member = await _context.Members.FirstOrDefaultAsync(m => m.PersonID == person.PersonID);
-            if (member == null) return BadRequest("You are not registered as a Member.");
+            // 3. Validate Shift (Ignoring Year)
+            int dayOfWeek = (int)dto.StartAt.DayOfWeek;
 
-            // Trainer must exist
-            var trainer = await _context.Trainers.FirstOrDefaultAsync(t => t.TrainerID == dto.TrainerId);
-            if (trainer == null) return BadRequest("Trainer does not exist.");
+            var shifts = await _context.TrainerAvailabilities
+                .Where(a => a.TrainerId == dto.TrainerId
+                         && a.ServiceTypeId == dto.ServiceId
+                         && a.DayOfWeek == dayOfWeek)
+                .ToListAsync();
 
-            // Service must exist
-            bool serviceExists = await _context.Services.AnyAsync(s => s.ServiceID == dto.ServiceId);
-            if (!serviceExists) return BadRequest("Service does not exist.");
+            if (!shifts.Any())
+                return BadRequest($"Error: Trainer is not working on this day.");
 
-            // Trainer must have that skill
-            bool trainerHasSkill = await _context.TrainerSkills.AnyAsync(ts =>
-                ts.TrainerId == dto.TrainerId && ts.ServiceId == dto.ServiceId);
+            bool isShiftValid = shifts.Any(s =>
+                dto.StartAt.TimeOfDay >= s.StartTime.TimeOfDay &&
+                dto.EndAt.TimeOfDay <= s.EndTime.TimeOfDay
+            );
 
-            if (!trainerHasSkill)
-                return BadRequest("Trainer does not offer this service.");
+            if (!isShiftValid)
+                return BadRequest($"Error: The requested time is outside the trainer's shift.");
 
-            // Must be inside availability
-            int day = (int)dto.StartAt.DayOfWeek;
-
-            // Availability stores time in DateTime (fixed date). We compare using same fixed date.
-            var baseDate = new DateTime(2000, 1, 1);
-            var reqStart = baseDate.Add(dto.StartAt.TimeOfDay);
-            var reqEnd = baseDate.Add(dto.EndAt.TimeOfDay);
-
-            bool insideAvailability = await _context.TrainerAvailabilities.AnyAsync(a =>
-                a.TrainerId == dto.TrainerId &&
-                a.DayOfWeek == day &&
-                a.ServiceTypeId == dto.ServiceId &&
-                reqStart >= a.StartTime &&
-                reqEnd <= a.EndTime);
-
-            if (!insideAvailability)
-                return BadRequest("Requested time is outside trainer availability.");
-
-            // Prevent overlap (trainer)
-            bool trainerOverlap = await _context.Appointments.AnyAsync(a =>
+            // 4. Check for Double Booking (Overlapping appointments)
+            bool isConflict = await _context.Appointments.AnyAsync(a =>
                 a.TrainerID == dto.TrainerId &&
-                dto.StartAt < a.EndTime && dto.EndAt > a.StartTime);
+                a.StartTime < dto.EndAt &&
+                a.EndTime > dto.StartAt
+            );
 
-            if (trainerOverlap)
-                return Conflict("Trainer already has an appointment at this time.");
+            if (isConflict)
+                return Conflict("Error: This time slot is already booked.");
 
-            // Prevent overlap (member)
-            bool memberOverlap = await _context.Appointments.AnyAsync(a =>
-                a.MemberID == member.MemberID &&
-                dto.StartAt < a.EndTime && dto.EndAt > a.StartTime);
-
-            if (memberOverlap)
-                return Conflict("You already have an appointment at this time.");
-
-            var service = await _context.Services.FirstAsync(s => s.ServiceID == dto.ServiceId);
-            var hours = (dto.EndAt - dto.StartAt).TotalHours;
-            var fee = (decimal)service.FeesPerHour * (decimal)hours;
-
-            // Create appointment
-            var appt = new Appointment
+            // 5. Save the Appointment
+            var appointment = new Appointment
             {
                 MemberID = member.MemberID,
                 TrainerID = dto.TrainerId,
+
+                // FIX 1: Use 'ServiceID' (Capital ID) to match your Model
                 ServiceID = dto.ServiceId,
+
+                // FIX 2: Do NOT set 'Date'. Your model only uses StartTime/EndTime.
                 StartTime = dto.StartAt,
                 EndTime = dto.EndAt,
-                Fee = fee,
-                IsApproved = false
+
+                // Optional: You can set a default Fee or fetch it from Services
+                Fee = 0,
+                IsApproved = true // Automatically approve for now
             };
 
-            _context.Appointments.Add(appt);
+            _context.Appointments.Add(appointment);
             await _context.SaveChangesAsync();
 
-            return Ok(new { Message = "Booked", appt.AppointmentID });
+            return Ok(new { Message = "Booking Successful!", AppointmentId = appointment.AppointmentID });
         }
-
         [Authorize(Roles = "Member")]
         [HttpGet("MyAppointments")]
         public async Task<IActionResult> MyAppointments()
@@ -430,7 +410,45 @@ namespace Web_API.Controllers
 
             return Ok(new { Message = "Approved", appt.AppointmentID });
         }
-        
+
+
+        // DELETE: api/Appointments/Cancel/5
+        [HttpDelete("Cancel/{id}")]
+        [Authorize]
+        public async Task<IActionResult> CancelAppointment(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // Find the appointment including the Member/Person data to verify ownership
+            var appointment = await _context.Appointments
+                .Include(a => a.Member).ThenInclude(m => m.person)
+                .Include(a => a.Trainer).ThenInclude(t => t.person)
+                .FirstOrDefaultAsync(a => a.AppointmentID == id);
+
+            if (appointment == null)
+                return NotFound("Appointment not found.");
+
+            // Security Check: Ensure the logged-in user owns this appointment
+            // User can be the Member OR the Trainer involved.
+            bool isMember = appointment.Member?.person?.UserId == userId;
+            bool isTrainer = appointment.Trainer?.person?.UserId == userId;
+
+            if (!isMember && !isTrainer)
+            {
+                return Unauthorized("You are not authorized to cancel this appointment.");
+            }
+
+            // Optional: Prevent canceling past appointments
+            if (appointment.StartTime < DateTime.Now)
+            {
+                return BadRequest("Cannot cancel a completed appointment.");
+            }
+
+            _context.Appointments.Remove(appointment);
+            await _context.SaveChangesAsync();
+
+            return NoContent(); // 204 Success
+        }
 
         private bool AppointmentExists(int id)
         {

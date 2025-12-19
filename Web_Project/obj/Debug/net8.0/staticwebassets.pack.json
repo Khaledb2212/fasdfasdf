@@ -5,8 +5,136 @@
       "PackagePath": "staticwebassets\\Web_Project.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\assets\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\css\\font-awesome.css",
+      "PackagePath": "staticwebassets\\assets\\css\\font-awesome.css"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\css\\site-overrides.css",
+      "PackagePath": "staticwebassets\\assets\\css\\site-overrides.css"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\css\\templatemo-training-studio.css",
+      "PackagePath": "staticwebassets\\assets\\css\\templatemo-training-studio.css"
+    },
+    {
       "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\favicon.ico",
       "PackagePath": "staticwebassets\\assets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\fonts\\Flaticon.woff",
+      "PackagePath": "staticwebassets\\assets\\fonts\\Flaticon.woff"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\fonts\\FontAwesome.otf",
+      "PackagePath": "staticwebassets\\assets\\fonts\\FontAwesome.otf"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\fonts\\flexslider-icon.eot",
+      "PackagePath": "staticwebassets\\assets\\fonts\\flexslider-icon.eot"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\fonts\\flexslider-icon.svg",
+      "PackagePath": "staticwebassets\\assets\\fonts\\flexslider-icon.svg"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\fonts\\flexslider-icon.ttf",
+      "PackagePath": "staticwebassets\\assets\\fonts\\flexslider-icon.ttf"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\fonts\\flexslider-icon.woff",
+      "PackagePath": "staticwebassets\\assets\\fonts\\flexslider-icon.woff"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\fonts\\fontawesome-webfont.eot",
+      "PackagePath": "staticwebassets\\assets\\fonts\\fontawesome-webfont.eot"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\fonts\\fontawesome-webfont.svg",
+      "PackagePath": "staticwebassets\\assets\\fonts\\fontawesome-webfont.svg"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\fonts\\fontawesome-webfont.ttf",
+      "PackagePath": "staticwebassets\\assets\\fonts\\fontawesome-webfont.ttf"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\fonts\\fontawesome-webfont.woff",
+      "PackagePath": "staticwebassets\\assets\\fonts\\fontawesome-webfont.woff"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\fonts\\fontawesome-webfont.woff2",
+      "PackagePath": "staticwebassets\\assets\\fonts\\fontawesome-webfont.woff2"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\fonts\\slick.eot",
+      "PackagePath": "staticwebassets\\assets\\fonts\\slick.eot"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\fonts\\slick.svg",
+      "PackagePath": "staticwebassets\\assets\\fonts\\slick.svg"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\fonts\\slick.ttf",
+      "PackagePath": "staticwebassets\\assets\\fonts\\slick.ttf"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\fonts\\slick.woff",
+      "PackagePath": "staticwebassets\\assets\\fonts\\slick.woff"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\images\\contact-bg.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\contact-bg.jpg"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\images\\cta-bg.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\cta-bg.jpg"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\images\\features-first-icon.png",
+      "PackagePath": "staticwebassets\\assets\\images\\features-first-icon.png"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\images\\first-trainer.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\first-trainer.jpg"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\images\\gym-video.mp4",
+      "PackagePath": "staticwebassets\\assets\\images\\gym-video.mp4"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\images\\hero.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\hero.jpg"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\images\\line-dec.png",
+      "PackagePath": "staticwebassets\\assets\\images\\line-dec.png"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\images\\schedule-bg.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\schedule-bg.jpg"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\images\\second-trainer.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\second-trainer.jpg"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\images\\slide-01.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\slide-01.jpg"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\images\\tabs-first-icon.png",
+      "PackagePath": "staticwebassets\\assets\\images\\tabs-first-icon.png"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\images\\third-trainer.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\third-trainer.jpg"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\images\\training-image-01.jpg",
+      "PackagePath": "staticwebassets\\assets\\images\\training-image-01.jpg"
     },
     {
       "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\img\\about\\1.jpg",
@@ -91,6 +219,46 @@
     {
       "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\img\\team\\3.jpg",
       "PackagePath": "staticwebassets\\assets\\img\\team\\3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\js\\accordions.js",
+      "PackagePath": "staticwebassets\\assets\\js\\accordions.js"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\assets\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\js\\custom.js",
+      "PackagePath": "staticwebassets\\assets\\js\\custom.js"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\js\\imgfix.min.js",
+      "PackagePath": "staticwebassets\\assets\\js\\imgfix.min.js"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\js\\jquery-2.1.0.min.js",
+      "PackagePath": "staticwebassets\\assets\\js\\jquery-2.1.0.min.js"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\js\\jquery.counterup.min.js",
+      "PackagePath": "staticwebassets\\assets\\js\\jquery.counterup.min.js"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\js\\mixitup.js",
+      "PackagePath": "staticwebassets\\assets\\js\\mixitup.js"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\js\\popper.js",
+      "PackagePath": "staticwebassets\\assets\\js\\popper.js"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\js\\scrollreveal.min.js",
+      "PackagePath": "staticwebassets\\assets\\js\\scrollreveal.min.js"
+    },
+    {
+      "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\assets\\js\\waypoints.min.js",
+      "PackagePath": "staticwebassets\\assets\\js\\waypoints.min.js"
     },
     {
       "Id": "C:\\Users\\kloda\\OneDrive\\Desktop\\Web_Project2\\Web_Project\\wwwroot\\css\\site.css",

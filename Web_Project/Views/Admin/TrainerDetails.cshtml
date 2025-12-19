@@ -1,0 +1,57 @@
+﻿@model Web_Project.Models.TrainerDTO
+
+@{
+    ViewData["Title"] = "Trainer Details";
+}
+
+<div class="mx-auto max-w-4xl px-4 py-8">
+    <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+            <h1 class="text-2xl font-semibold tracking-tight text-slate-900">Trainer Details</h1>
+            <p class="mt-1 text-sm text-slate-600">Read-only profile information.</p>
+        </div>
+
+        <div class="flex flex-wrap gap-2">
+            <a asp-controller="Admin" asp-action="EditTrainer" asp-route-id="@Model.TrainerID"
+               class="inline-flex items-center justify-center rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500">
+                Edit
+            </a>
+
+            <a asp-controller="Admin" asp-action="Trainers"
+               class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 shadow-sm hover:bg-slate-50">
+                Back
+            </a>
+        </div>
+    </div>
+
+    <div class="mt-6 rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+        <div class="border-b border-slate-200 bg-slate-50 px-6 py-4">
+            <p class="text-sm font-semibold text-slate-900">@Model.FullName</p>
+            <p class="mt-1 text-xs text-slate-600">TrainerID: @Model.TrainerID • PersonID: @Model.PersonID</p>
+        </div>
+
+        <div class="px-6 py-6 space-y-6">
+            <div class="grid gap-4 sm:grid-cols-2">
+                <div class="rounded-xl border border-slate-200 bg-white p-4">
+                    <p class="text-xs text-slate-500">Email</p>
+                    <p class="mt-1 text-sm font-semibold text-slate-900">@Model.Email</p>
+                </div>
+
+                <div class="rounded-xl border border-slate-200 bg-white p-4">
+                    <p class="text-xs text-slate-500">Phone</p>
+                    <p class="mt-1 text-sm font-semibold text-slate-900">@Model.Phone</p>
+                </div>
+
+                <div class="rounded-xl border border-slate-200 bg-white p-4 sm:col-span-2">
+                    <p class="text-xs text-slate-500">Expertise Areas</p>
+                    <p class="mt-1 text-sm font-semibold text-slate-900">@Model.ExpertiseAreas</p>
+                </div>
+
+                <div class="rounded-xl border border-slate-200 bg-white p-4 sm:col-span-2">
+                    <p class="text-xs text-slate-500">Description</p>
+                    <p class="mt-1 text-sm text-slate-900 whitespace-pre-line">@Model.Description</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

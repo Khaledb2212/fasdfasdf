@@ -272,7 +272,7 @@ namespace Web_API.Controllers
             return CreatedAtAction(nameof(GetTrainer), new { id = trainer.TrainerID }, trainer);
         }
 
-        [HttpPost("Available", Name = "Available")]
+        [HttpGet("Available", Name = "Available")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -337,25 +337,39 @@ namespace Web_API.Controllers
 
             int day = (int)dto.Date.DayOfWeek;
 
-            // Availability is stored as DateTime anchored (e.g., 2000-01-01 + time)
-            var anchor = new DateTime(2000, 1, 1);
-            var reqStart = anchor.Add(startTs);
-            var reqEnd = anchor.Add(endTs);
+            //// Availability is stored as DateTime anchored (e.g., 2000-01-01 + time)
+            //var anchor = new DateTime(2026, 1, 1);
+            //var reqStart = anchor.Add(startTs);
+            //var reqEnd = anchor.Add(endTs);
+
+            // 1. Get ALL slots for this Day and Service first
+            // We do NOT filter by time in SQL anymore to avoid Year mismatches.
+            var potentialSlots = await _context.TrainerAvailabilities
+                .Where(a => a.DayOfWeek == day && a.ServiceTypeId == dto.ServiceId)
+                .ToListAsync();
+
+            // 2. Filter in Memory using TimeOfDay (Ignores Year/Month/Date)
+            // This works whether your DB has year 2000, 2025, or 2026.
+            var slotTrainerIds = potentialSlots
+                .Where(a => startTs >= a.StartTime.TimeOfDay && endTs <= a.EndTime.TimeOfDay)
+                .Select(a => a.TrainerId)
+                .Distinct()
+                .ToList();
 
             // Real datetime for appointments
             var reqStartAt = dto.Date.Date.Add(startTs);
             var reqEndAt = dto.Date.Date.Add(endTs);
 
-            // Trainers who have a slot containing this requested time
-            var slotTrainerIds = _context.TrainerAvailabilities
-                .Where(a =>
-                    a.DayOfWeek == day &&
-                    a.ServiceTypeId == dto.ServiceId &&
-                    reqStart >= a.StartTime &&
-                    reqEnd <= a.EndTime
-                )
-                .Select(a => a.TrainerId)
-                .Distinct();
+            //// Trainers who have a slot containing this requested time
+            //var slotTrainerIds = _context.TrainerAvailabilities
+            //    .Where(a =>
+            //        a.DayOfWeek == day &&
+            //        a.ServiceTypeId == dto.ServiceId &&
+            //        reqStart >= a.StartTime &&
+            //        reqEnd <= a.EndTime
+            //    )
+            //    .Select(a => a.TrainerId)
+            //    .Distinct();
 
             // Trainers busy due to existing appointments
             var busyTrainerIds = _context.Appointments
@@ -382,6 +396,8 @@ namespace Web_API.Controllers
 
             return Ok(available);
         }
+       
+        
         private bool TrainerExists(int id)
         {
             return _context.Trainers.Any(e => e.TrainerID == id);

@@ -71,7 +71,8 @@ static async Task SeedRolesAndAdminAsync(WebApplication app)
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<UserDetails>>();
 
     // Ensure roles exist
-    string[] roles = { "Admin", "Member" };
+    string[] roles = { "Admin", "Member", "Trainer" };
+
     foreach (var role in roles)
     {
         if (!await roleManager.RoleExistsAsync(role))

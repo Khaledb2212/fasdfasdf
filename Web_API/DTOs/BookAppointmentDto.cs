@@ -1,19 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Web_API.DTOs
 {
     public class BookAppointmentDto
     {
-        [Required]
+        [JsonPropertyName("trainerId")]
         public int TrainerId { get; set; }
 
-        [Required]
+        [JsonPropertyName("serviceId")]
         public int ServiceId { get; set; }
 
-        [Required]
+        [JsonPropertyName("startAt")]
         public DateTime StartAt { get; set; }
 
-        [Required]
+        [JsonPropertyName("endAt")]
         public DateTime EndAt { get; set; }
     }
 }

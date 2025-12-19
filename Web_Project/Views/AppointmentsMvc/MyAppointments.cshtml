@@ -1,0 +1,124 @@
+﻿@* 
+
+@model List<Web_Project.Controllers.MyAppointmentRowVm>
+
+@{
+    ViewData["Title"] = "My Appointments";
+}
+
+<div class="mx-auto max-w-6xl px-4 py-8">
+    <h1 class="text-2xl font-semibold tracking-tight text-slate-900">My Appointments</h1>
+    <p class="mt-1 text-sm text-slate-600">Your bookings from the API.</p>
+
+    <div class="mt-6 rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+        @if (Model == null || !Model.Any())
+        {
+                <div class="p-6 text-sm text-slate-700">No appointments found.</div>
+        }
+        else
+        {
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-left text-sm">
+                        <thead class="bg-slate-50 text-slate-700">
+                            <tr>
+                                <th class="px-5 py-3 font-semibold">Date</th>
+                                <th class="px-5 py-3 font-semibold">Time</th>
+                                <th class="px-5 py-3 font-semibold">Service</th>
+                                <th class="px-5 py-3 font-semibold">Trainer</th>
+                                <th class="px-5 py-3 font-semibold">ID</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                        @foreach (var a in Model)
+                        {
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="px-5 py-3">@a.StartTime.ToString("yyyy-MM-dd")</td>
+                                        <td class="px-5 py-3">@a.StartTime.ToString("HH:mm") - @a.EndTime.ToString("HH:mm")</td>
+                                        <td class="px-5 py-3">@a.ServiceName</td>
+                                        <td class="px-5 py-3">@a.TrainerName</td>
+                                        <td class="px-5 py-3 text-slate-500">@a.AppointmentID</td>
+                                    </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+        }
+    </div>
+</div>
+ *@
+
+@model List<Web_Project.Controllers.MyAppointmentRowVm>
+
+@{
+    ViewData["Title"] = "My Appointments";
+}
+
+<div class="mx-auto max-w-6xl px-4 py-8">
+    <h1 class="text-2xl font-semibold tracking-tight text-slate-900">My Appointments</h1>
+    <p class="mt-1 text-sm text-slate-600">Your bookings from the API.</p>
+
+    @if (TempData["Success"] != null)
+    {
+            <div class="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+            @TempData["Success"]
+            </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+            <div class="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+            @TempData["Error"]
+            </div>
+    }
+
+    <div class="mt-6 rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+        @if (Model == null || !Model.Any())
+        {
+                <div class="p-6 text-sm text-slate-700">No appointments found.</div>
+        }
+        else
+        {
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-left text-sm">
+                        <thead class="bg-slate-50 text-slate-700">
+                            <tr>
+                                <th class="px-5 py-3 font-semibold">Date</th>
+                                <th class="px-5 py-3 font-semibold">Time</th>
+                                <th class="px-5 py-3 font-semibold">Service</th>
+                                <th class="px-5 py-3 font-semibold">Trainer</th>
+                                <th class="px-5 py-3 font-semibold">ID</th>
+                                <th class="px-5 py-3 font-semibold text-right">Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="divide-y divide-slate-200">
+                        @foreach (var a in Model)
+                        {
+                                    <tr class="hover:bg-slate-50">
+                                        <td class="px-5 py-3">@a.StartTime.ToString("yyyy-MM-dd")</td>
+                                        <td class="px-5 py-3">@a.StartTime.ToString("HH:mm") - @a.EndTime.ToString("HH:mm")</td>
+                                        <td class="px-5 py-3">@a.ServiceName</td>
+                                        <td class="px-5 py-3">@a.TrainerName</td>
+                                        <td class="px-5 py-3 text-slate-500">@a.AppointmentID</td>
+
+                                        <td class="px-5 py-3 text-right">
+                                            <form asp-action="Cancel"
+                                                  method="post"
+                                                  onsubmit="return confirm('Are you sure you want to cancel this session?');"
+                                                  class="inline-block">
+                                        @Html.AntiForgeryToken()
+                                                <input type="hidden" name="id" value="@a.AppointmentID" />
+
+                                                <button type="submit"
+                                                        class="rounded-xl border border-red-200 bg-white px-3 py-2 text-xs font-semibold text-red-700 shadow-sm hover:bg-red-50">
+                                                    Cancel
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,27 @@
+﻿/* Make the form buttons look like template buttons */
+.nav-form {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-main-btn {
+    border: none;
+    cursor: pointer;
+    background: #ed563b;
+    color: #fff;
+    padding: 11px 17px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+    .nav-main-btn:hover {
+        opacity: 0.9;
+    }
+
+/* Keep nav items vertically aligned */
+.header-area .main-nav .nav {
+    align-items: center;
+}
