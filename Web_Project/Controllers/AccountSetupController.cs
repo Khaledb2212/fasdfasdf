@@ -24,21 +24,21 @@ namespace Web_Project.Controllers
             _signInManager = signInManager;
         }
 
-        // POST: /AccountSetup/BecomeMember
+       
         [HttpPost]
         public async Task<IActionResult> BecomeMember()
         {
             var client = _httpClientFactory.CreateClient("WebApi");
             var resp = await client.PostAsync("api/Members/RegisterMe", null);
 
-            // allow OK or "already a member" (409)
+           
             if (!resp.IsSuccessStatusCode && (int)resp.StatusCode != 409)
             {
                 var body = await resp.Content.ReadAsStringAsync();
                 return Content($"API error: {(int)resp.StatusCode} - {body}");
             }
 
-            // Assign Identity role (this is what fixes 403)
+            
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return Unauthorized();
 
@@ -49,13 +49,13 @@ namespace Web_Project.Controllers
                     return Content("Role assign failed: " + string.Join(" | ", result.Errors.Select(e => e.Description)));
             }
 
-            // Refresh cookie so API immediately sees the new role
+           
             await _signInManager.RefreshSignInAsync(user);
 
             return RedirectToAction("Index", "Home");
         }
 
-        // POST: /AccountSetup/BecomeTrainer
+        
         [HttpPost]
         public async Task<IActionResult> BecomeTrainer(string expertiseAreas, string? description)
         {
@@ -73,7 +73,7 @@ namespace Web_Project.Controllers
                 return Content($"API error: {(int)resp.StatusCode} - {body}");
             }
 
-            // Assign Identity role (this is what fixes 403)
+           
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return Unauthorized();
 

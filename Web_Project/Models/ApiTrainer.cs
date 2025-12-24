@@ -10,7 +10,6 @@ namespace Web_Project.Models
         [JsonPropertyName("personID")]
         public int PersonID { get; set; }
 
-        // Matches the "person": { ... } object in JSON
         [JsonPropertyName("person")]
         public ApiPerson? Person { get; set; }
 
@@ -20,12 +19,10 @@ namespace Web_Project.Models
         [JsonPropertyName("description")]
         public string? Description { get; set; }
 
-        // Matches the "skills": [ ... ] array in JSON
         [JsonPropertyName("skills")]
         public List<ApiTrainerSkill>? Skills { get; set; }
     }
 
-    // 2. Catches the nested "person" object
     public class ApiPerson
     {
         [JsonPropertyName("firstName")]
@@ -41,16 +38,19 @@ namespace Web_Project.Models
         public string? Email { get; set; }
     }
 
-    // 3. Catches the nested "skills" items
+    // --- UPDATED CLASS ---
     public class ApiTrainerSkill
     {
+        // API sends "id" (from your TrainerSkill.cs 'Id' property)
         [JsonPropertyName("id")]
         public int TrainerSkillID { get; set; }
 
-        [JsonPropertyName("serviceID")]
+        // API sends "serviceId" (from your TrainerSkill.cs 'ServiceId' property)
+        [JsonPropertyName("serviceId")]
         public int ServiceID { get; set; }
 
+        // API sends "service" (lowercase 's' from your virtual property)
         [JsonPropertyName("service")]
-        public ServiceDTO? Service { get; set; } // We can reuse your existing ServiceDTO here
+        public ServiceDTO? Service { get; set; }
     }
 }

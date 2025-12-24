@@ -5,11 +5,10 @@ namespace Web_Project.Models
 {
     public class DietAnalysisVm
     {
-        // INPUT: Option A (Photo)
+ 
         [Display(Name = "Upload Body Photo")]
         public IFormFile? Photo { get; set; }
 
-        // INPUT: Option B (Manual Stats)
         [Display(Name = "Height (cm)")]
         public double? Height { get; set; }
 

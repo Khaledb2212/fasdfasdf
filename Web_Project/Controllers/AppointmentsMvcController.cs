@@ -24,7 +24,7 @@ namespace Web_Project.Controllers
                 Date = DateTime.Today
             };
 
-            await LoadPageData(vm); // Refactored logic to load data
+            await LoadPageData(vm); 
 
             return View(vm);
         }
@@ -33,7 +33,7 @@ namespace Web_Project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Book(BookAppointmentVm vm)
         {
-            // 1. Basic Validation
+            //  Validation
             if (vm.TrainerId == null)
             {
                 ModelState.AddModelError("", "Trainer is required.");
@@ -43,11 +43,11 @@ namespace Web_Project.Controllers
 
             var clientApi = _httpClientFactory.CreateClient("WebApi");
 
-            // 2. Combine Date + Time
+           
             var startAt = vm.Date.Date.Add(vm.StartTime);
             var endAt = vm.Date.Date.Add(vm.EndTime);
 
-            // 3. Send to API
+            
             var resp = await clientApi.PostAsJsonAsync("api/Appointments/Book", new
             {
                 TrainerId = vm.TrainerId,
@@ -59,21 +59,21 @@ namespace Web_Project.Controllers
             if (resp.IsSuccessStatusCode)
                 return RedirectToAction(nameof(MyAppointments));
 
-            // 4. Handle Failure
+            
             var body = await resp.Content.ReadAsStringAsync();
             ModelState.AddModelError("", $"Booking failed: {body}");
 
-            // RELOAD THE SLOTS so the user isn't stuck on an empty page
+           
             await LoadPageData(vm);
             return View(vm);
         }
 
-        // --- Helper to Load Services AND Slots ---
+     
         private async Task LoadPageData(BookAppointmentVm vm)
         {
             var client = _httpClientFactory.CreateClient("WebApi");
 
-            // A. Load Services
+            // Services
             var servicesResp = await client.GetAsync("api/Services/GetServices");
             if (servicesResp.IsSuccessStatusCode)
             {
@@ -86,7 +86,7 @@ namespace Web_Project.Controllers
                 }).ToList();
             }
 
-            // B. Load Available Slots (If a service is selected)
+            
             if (vm.ServiceId != 0)
             {
                 vm.AvailableSlots = new List<AppointmentSlot>();
@@ -95,7 +95,7 @@ namespace Web_Project.Controllers
                 for (int i = 0; i < 7; i++)
                 {
                     var testDate = today.AddDays(i);
-                    // Ensure the API call is correct
+                    
                     var availResp = await client.GetAsync($"api/Trainers/Available?date={testDate:yyyy-MM-dd}&serviceId={vm.ServiceId}");
 
                     if (availResp.IsSuccessStatusCode)
@@ -109,7 +109,7 @@ namespace Web_Project.Controllers
                                 Date = testDate,
                                 TrainerId = t.TrainerID,
                                 TrainerName = t.TrainerName ?? "Unknown",
-                                // These will now populate correctly because of the DTO fix below
+                                
                                 StartTime = t.StartTime ?? "00:00",
                                 EndTime = t.EndTime ?? "00:00"
                             });
@@ -119,7 +119,8 @@ namespace Web_Project.Controllers
             }
         }
 
-        
+
+
 
         [HttpGet]
         public async Task<IActionResult> MyAppointments()
@@ -134,9 +135,9 @@ namespace Web_Project.Controllers
                 return View("Error");
 
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-
             var apiList = await resp.Content.ReadFromJsonAsync<List<AppointmentApiDto>>(options) ?? new();
 
+            
             var vm = apiList
                 .Select(a => new MyAppointmentRowVm
                 {
@@ -144,14 +145,14 @@ namespace Web_Project.Controllers
                     ServiceName = a.ServiceName,
                     TrainerName = a.TrainerName,
                     StartTime = a.StartTime,
-                    EndTime = a.EndTime
+                    EndTime = a.EndTime,
+                    IsApproved = a.IsApproved 
                 })
                 .OrderBy(a => a.StartTime)
                 .ToList();
 
             return View(vm);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -174,10 +175,10 @@ namespace Web_Project.Controllers
 
     }
 
-    // --- UPDATED DTOs: Fixes the CamelCase vs PascalCase issue ---
+    
     public class ServiceDto
     {
-        [JsonPropertyName("serviceID")] // Matches API JSON
+        [JsonPropertyName("serviceID")] 
         public int ServiceID { get; set; }
 
         [JsonPropertyName("serviceName")]
@@ -192,7 +193,7 @@ namespace Web_Project.Controllers
         [JsonPropertyName("trainerName")]
         public string? TrainerName { get; set; }
 
-        // Changed to STRING to match the new API output
+       
         [JsonPropertyName("startTime")]
         public string? StartTime { get; set; }
 
@@ -216,8 +217,13 @@ namespace Web_Project.Controllers
 
         [JsonPropertyName("serviceName")]
         public string? ServiceName { get; set; }
+
+       
+        [JsonPropertyName("isApproved")]
+        public bool IsApproved { get; set; }
     }
 
+   
     public class MyAppointmentRowVm
     {
         public int AppointmentID { get; set; }
@@ -225,5 +231,8 @@ namespace Web_Project.Controllers
         public string? TrainerName { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+
+        // --- ADD THIS ---
+        public bool IsApproved { get; set; }
     }
 }

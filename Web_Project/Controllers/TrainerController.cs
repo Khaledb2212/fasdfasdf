@@ -311,6 +311,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Net;
 using System.Text.Json;
 using Web_Project.Models;
 
@@ -326,9 +327,7 @@ namespace Web_Project.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
-        // =========================================================
-        // INDEX (PORTAL)
-        // =========================================================
+ 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -337,9 +336,7 @@ namespace Web_Project.Controllers
             return View(vm);
         }
 
-        // =========================================================
-        // ADD SLOT
-        // =========================================================
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddSlot(TrainerPortalVm vm)
@@ -374,9 +371,6 @@ namespace Web_Project.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // =========================================================
-        // REMOVE SLOT
-        // =========================================================
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveSlot(int availabilityId)
@@ -392,29 +386,33 @@ namespace Web_Project.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // =========================================================
-        // APPROVE APPOINTMENT
-        // =========================================================
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ApproveAppointment(int appointmentId)
         {
             var client = _httpClientFactory.CreateClient("WebApi");
-
-            // API is [HttpPut("Approve")] with query string id=
             var resp = await client.PutAsync($"api/Appointments/Approve?id={appointmentId}", null);
 
             if (resp.IsSuccessStatusCode)
+            {
                 TempData["Success"] = "Appointment approved.";
-            else
-                TempData["Error"] = await resp.Content.ReadAsStringAsync();
+                return RedirectToAction(nameof(Index));
+            }
 
+            if (resp.StatusCode == HttpStatusCode.Unauthorized)
+                return Redirect("/Identity/Account/Login");
+
+            if (resp.StatusCode == HttpStatusCode.Forbidden)
+            {
+                TempData["Error"] = "Forbidden: you can only approve your own appointments.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            TempData["Error"] = await resp.Content.ReadAsStringAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        // =========================================================
-        // UPDATE TRAINER PROFILE (ExpertiseAreas + Description)
-        // =========================================================
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateProfile(string expertiseAreas, string? description)
@@ -443,38 +441,179 @@ namespace Web_Project.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // =========================================================
-        // PRIVATE: LOAD PORTAL DATA
-        // =========================================================
+        //private async Task LoadPortalData(TrainerPortalVm vm)
+        //{
+        //    var client = _httpClientFactory.CreateClient("WebApi");
+        //    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+        //    vm.Services = new List<SelectListItem>();
+        //    vm.MySlots = new List<MySlotRow>();
+        //    vm.PendingAppointments = new List<PendingAppointmentRow>();
+        //    vm.UpcomingApprovedAppointments = new List<PendingAppointmentRow>();
+
+        //    var mySkillIds = new List<int>();
+
+        //    var myResp = await client.GetAsync("api/Trainers/MyProfile");
+        //    if (!myResp.IsSuccessStatusCode)
+        //    {
+        //        TempData["Error"] = "Could not load your trainer profile: " + await myResp.Content.ReadAsStringAsync();
+        //        return;
+        //    }
+
+        //    var myProfile = await myResp.Content.ReadFromJsonAsync<ApiTrainer>(options);
+        //    if (myProfile == null)
+        //    {
+        //        TempData["Error"] = "Could not read trainer profile (null).";
+        //        return;
+        //    }
+
+        //    vm.ExpertiseAreas = myProfile.ExpertiseAreas;
+        //    vm.Description = myProfile.Description;
+
+        //    if (myProfile.Skills != null)
+        //        mySkillIds = myProfile.Skills.Select(s => s.ServiceID).ToList();
+
+        //    var servicesResp = await client.GetAsync("api/Services/GetServices");
+        //    if (servicesResp.IsSuccessStatusCode)
+        //    {
+        //        var allServices = await servicesResp.Content.ReadFromJsonAsync<List<ServiceDTO>>(options) ?? new();
+
+        //        var myServices = allServices
+        //            .Where(s => mySkillIds.Contains(s.ServiceID))
+        //            .ToList();
+
+        //        vm.Services = myServices.Select(s => new SelectListItem
+        //        {
+        //            Value = s.ServiceID.ToString(),
+        //            Text = $"{s.ServiceName} (${s.FeesPerHour}/hr)"
+        //        }).ToList();
+
+        //        if (vm.Services.Count == 0)
+        //        {
+        //            TempData["Error"] = "No skills found for your trainer profile. Ask Admin to assign skills first.";
+        //        }
+        //    }
+        //    else
+        //    {
+        //        TempData["Error"] = "Could not load Services from API.";
+        //    }
+
+        //    var slotsResp = await client.GetAsync("api/TrainerAvailabilities/MySlots");
+        //    if (slotsResp.IsSuccessStatusCode)
+        //    {
+        //        var json = await slotsResp.Content.ReadAsStringAsync();
+        //        using var doc = JsonDocument.Parse(json);
+
+        //        foreach (var el in doc.RootElement.EnumerateArray())
+        //        {
+        //            vm.MySlots.Add(new MySlotRow
+        //            {
+        //                AvailabilityId = GetInt(el, "availabilityId"),
+        //                DayOfWeek = GetInt(el, "dayOfWeek"),
+        //                StartTime = GetString(el, "startTime") ?? "00:00",
+        //                EndTime = GetString(el, "endTime") ?? "00:00",
+        //                ServiceTypeId = GetInt(el, "serviceTypeId"),
+        //                ServiceName = GetString(el, "serviceName")
+        //            });
+        //        }
+        //    }
+
+        //    vm.PendingAppointments = await LoadTrainerAppointments(client, pendingOnly: true, upcomingOnly: false);
+
+        //    var upcoming = await LoadTrainerAppointments(client, pendingOnly: false, upcomingOnly: true);
+
+        //    vm.UpcomingApprovedAppointments = upcoming
+        //        .Where(a => a.IsApproved)
+        //        .OrderBy(a => a.StartTime)
+        //        .ToList();
+        //}
+
+
         private async Task LoadPortalData(TrainerPortalVm vm)
         {
             var client = _httpClientFactory.CreateClient("WebApi");
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-            // ----------------------------
-            // 1) Services dropdown
-            // ----------------------------
-            var servicesResp = await client.GetAsync("api/Services/GetServices");
-            if (servicesResp.IsSuccessStatusCode)
+            // -----------------------------
+            // A) Load my profile text (Expertise/Description)
+            // -----------------------------
+            var trainersResp = await client.GetAsync("api/Trainers/GetTrainers");
+            if (trainersResp.IsSuccessStatusCode)
             {
-                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                var services = await servicesResp.Content.ReadFromJsonAsync<List<ServiceDTO>>(options) ?? new();
+                var allTrainers = await trainersResp.Content.ReadFromJsonAsync<List<ApiTrainer>>(options) ?? new();
 
-                vm.Services = services.Select(s => new SelectListItem
+                // Match by logged-in email (Identity username)
+                var myProfile = allTrainers.FirstOrDefault(t =>
+                    string.Equals(t.Person?.Email, User.Identity?.Name, StringComparison.OrdinalIgnoreCase));
+
+                if (myProfile != null)
                 {
-                    Value = s.ServiceID.ToString(),
-                    Text = s.ServiceName ?? $"Service {s.ServiceID}"
-                }).ToList();
+                    vm.ExpertiseAreas = myProfile.ExpertiseAreas;
+                    vm.Description = myProfile.Description;
+                }
+            }
+
+            // -----------------------------
+            // B) Load my skills (THE IMPORTANT FIX)
+            // Use API: GET api/TrainerSkills/MySkills
+            // -----------------------------
+            var mySkillServiceIds = new List<int>();
+
+            var mySkillsResp = await client.GetAsync("api/TrainerSkills/MySkills");
+            if (mySkillsResp.IsSuccessStatusCode)
+            {
+                var json = await mySkillsResp.Content.ReadAsStringAsync();
+                using var doc = JsonDocument.Parse(json);
+
+                foreach (var el in doc.RootElement.EnumerateArray())
+                {
+                    // expected: { id, serviceId, serviceName }
+                    var sid = GetInt(el, "serviceId");
+                    if (sid > 0) mySkillServiceIds.Add(sid);
+                }
             }
             else
             {
-                vm.Services = new();
+                // If unauthorized, your cookie is not reaching the API
+                TempData["Error"] = "Could not load your skills from API (MySkills).";
             }
 
-            // ----------------------------
-            // 2) My Slots
-            // API returns:
-            // availabilityId, dayOfWeek, startTime("HH:mm"), endTime("HH:mm"), serviceTypeId, serviceName
-            // ----------------------------
+            // -----------------------------
+            // C) Load services dropdown (filtered by my skills)
+            // -----------------------------
+            vm.Services = new();
+
+            var servicesResp = await client.GetAsync("api/Services/GetServices");
+            if (servicesResp.IsSuccessStatusCode)
+            {
+                var allServices = await servicesResp.Content.ReadFromJsonAsync<List<ServiceDTO>>(options) ?? new();
+
+                var myServices = allServices
+                    .Where(s => mySkillServiceIds.Contains(s.ServiceID))
+                    .ToList();
+
+                if (myServices.Count == 0)
+                {
+                    TempData["Error"] = "No skills found for your trainer profile. Ask Admin to assign skills to you.";
+                    // Keep dropdown empty on purpose (so trainer cannot add slot without skills)
+                }
+                else
+                {
+                    vm.Services = myServices.Select(s => new SelectListItem
+                    {
+                        Value = s.ServiceID.ToString(),
+                        Text = $"{s.ServiceName} (${s.FeesPerHour}/hr)"
+                    }).ToList();
+                }
+            }
+            else
+            {
+                TempData["Error"] = "Could not load Services from API.";
+            }
+
+            // -----------------------------
+            // D) Load my slots
+            // -----------------------------
             vm.MySlots = new();
             var slotsResp = await client.GetAsync("api/TrainerAvailabilities/MySlots");
             if (slotsResp.IsSuccessStatusCode)
@@ -496,23 +635,52 @@ namespace Web_Project.Controllers
                 }
             }
 
-            // ----------------------------
-            // 3) Pending appointments (not approved)
-            // ----------------------------
-            vm.PendingAppointments = await LoadTrainerAppointments(client, pendingOnly: true, upcomingOnly: false);
+            // -----------------------------
+            // E) Load ALL trainer appointments (RAW), then split locally
+            // -----------------------------
+            var all = await LoadTrainerAppointmentsRaw(client);
 
-            // ----------------------------
-            // 4) Upcoming approved appointments
-            // API supports upcomingOnly=true, we filter IsApproved == true here
-            // ----------------------------
-            var upcoming = await LoadTrainerAppointments(client, pendingOnly: false, upcomingOnly: true);
-            vm.UpcomingApprovedAppointments = upcoming
-                .Where(a => a.IsApproved && a.StartTime >= DateTime.Now)
+            // Pending = not approved, today+
+            vm.PendingAppointments = all
+                .Where(a => !a.IsApproved && a.StartTime.Date >= DateTime.Today)
                 .OrderBy(a => a.StartTime)
                 .ToList();
 
-
+            // Approved = approved, today+
+            vm.UpcomingApprovedAppointments = all
+                .Where(a => a.IsApproved && a.StartTime.Date >= DateTime.Today)
+                .OrderBy(a => a.StartTime)
+                .ToList();
         }
+
+        private async Task<List<PendingAppointmentRow>> LoadTrainerAppointmentsRaw(HttpClient client)
+        {
+            var list = new List<PendingAppointmentRow>();
+
+            // IMPORTANT: call WITHOUT pendingOnly/upcomingOnly
+            var resp = await client.GetAsync("api/Appointments/MyTrainerAppointments");
+            if (!resp.IsSuccessStatusCode) return list;
+
+            var json = await resp.Content.ReadAsStringAsync();
+            using var doc = JsonDocument.Parse(json);
+
+            foreach (var el in doc.RootElement.EnumerateArray())
+            {
+                list.Add(new PendingAppointmentRow
+                {
+                    AppointmentID = GetInt(el, "appointmentID"),
+                    StartTime = GetDateTime(el, "startTime"),
+                    EndTime = GetDateTime(el, "endTime"),
+                    IsApproved = GetBool(el, "isApproved"),
+                    Fee = GetDecimal(el, "fee"),
+                    MemberName = GetString(el, "memberName") ?? "Unknown",
+                    ServiceName = GetString(el, "serviceName") ?? "Unknown"
+                });
+            }
+
+            return list;
+        }
+
 
         private async Task<List<PendingAppointmentRow>> LoadTrainerAppointments(HttpClient client, bool pendingOnly, bool upcomingOnly)
         {
@@ -543,9 +711,7 @@ namespace Web_Project.Controllers
             return list.OrderBy(a => a.StartTime).ToList();
         }
 
-        // ----------------------------
-        // JSON helpers (case-insensitive-ish)
-        // ----------------------------
+
         private static string? GetString(JsonElement el, string name)
         {
             if (el.TryGetProperty(name, out var v) && v.ValueKind == JsonValueKind.String) return v.GetString();

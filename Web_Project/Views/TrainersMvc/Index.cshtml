@@ -1,0 +1,152 @@
+﻿@model List<Web_Project.Models.TrainerDTO>
+
+@{
+    ViewData["Title"] = "Our Trainers";
+}
+
+<div class="mx-auto max-w-6xl px-4 py-8">
+    <!-- Header -->
+    <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+            <h1 class="text-2xl font-semibold tracking-tight text-slate-900">Our Trainers</h1>
+            <p class="mt-1 text-sm text-slate-600">Meet the experts who will guide your fitness journey.</p>
+        </div>
+
+        <div class="flex flex-wrap gap-2">
+            @if (User?.Identity?.IsAuthenticated ?? false)
+            {
+                @if (User.IsInRole("Member"))
+                {
+                            <a asp-controller="AppointmentsMvc" asp-action="Book"
+                               class="inline-flex items-center justify-center rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-500">
+                                Book Now
+                            </a>
+
+                            <a asp-controller="AppointmentsMvc" asp-action="MyAppointments"
+                               class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 shadow-sm hover:bg-slate-50">
+                                My Appointments
+                            </a>
+                }
+            }
+            else
+            {
+                    <a asp-area="Identity" asp-page="/Account/Login"
+                       class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 shadow-sm hover:bg-slate-50">
+                        Log in
+                    </a>
+            }
+        </div>
+    </div>
+
+    <!-- Alerts (optional) -->
+    @if (TempData["Success"] != null)
+    {
+            <div class="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+            @TempData["Success"]
+            </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+            <div class="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+            @TempData["Error"]
+            </div>
+    }
+
+    <!-- Content -->
+    <div class="mt-6">
+        @if (Model != null && Model.Any())
+        {
+                <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                @foreach (var trainer in Model)
+                {
+                    var firstInitial = !string.IsNullOrWhiteSpace(trainer.FirstName) ? trainer.FirstName.Trim()[0].ToString().ToUpper() : "T";
+                    var lastInitial = !string.IsNullOrWhiteSpace(trainer.LastName) ? trainer.LastName.Trim()[0].ToString().ToUpper() : "R";
+                    var initials = $"{firstInitial}{lastInitial}";
+
+                            <div class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                                <!-- Card Header -->
+                                <div class="border-b border-slate-100 bg-slate-50 px-6 py-5">
+                                    <div class="flex items-center gap-4">
+                                        <div class="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100 text-lg font-bold text-emerald-700 ring-1 ring-inset ring-emerald-600/15">
+                                    @initials
+                                        </div>
+
+                                        <div class="min-w-0">
+                                            <h3 class="truncate text-lg font-semibold tracking-tight text-slate-900">
+                                        @trainer.FullName
+                                            </h3>
+
+                                    @if (!string.IsNullOrWhiteSpace(trainer.ExpertiseAreas))
+                                    {
+                                                    <p class="mt-0.5 truncate text-sm font-semibold text-emerald-700">
+                                            @trainer.ExpertiseAreas
+                                                    </p>
+                                    }
+                                    else
+                                    {
+                                                    <p class="mt-0.5 text-sm text-slate-500 italic">
+                                                        No expertise added yet.
+                                                    </p>
+                                    }
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Card Body -->
+                                <div class="flex-1 px-6 py-5">
+                            @if (!string.IsNullOrWhiteSpace(trainer.Description))
+                            {
+                                            <p class="text-sm leading-6 text-slate-600 line-clamp-5">
+                                    @trainer.Description
+                                            </p>
+                            }
+                            else
+                            {
+                                            <p class="text-sm text-slate-500 italic">
+                                                No bio provided.
+                                            </p>
+                            }
+                                </div>
+
+                                <!-- Card Footer -->
+                                <div class="mt-auto border-t border-slate-100 bg-white px-6 py-4">
+                            @if (User?.Identity?.IsAuthenticated ?? false)
+                            {
+                                @if (User.IsInRole("Member"))
+                                {
+                                                    <a asp-controller="AppointmentsMvc" asp-action="Book"
+                                                       class="inline-flex w-full items-center justify-center rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-500">
+                                                        Book a session
+                                                        <span class="ml-2" aria-hidden="true">→</span>
+                                                    </a>
+                                }
+                                else
+                                {
+                                                    <div class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-600">
+                                                        Booking is available for <span class="font-semibold text-slate-900">Members</span>.
+                                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                            <a asp-area="Identity" asp-page="/Account/Login"
+                                               class="inline-flex w-full items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-900 shadow-sm hover:bg-slate-50">
+                                                Log in to book
+                                                <span class="ml-2" aria-hidden="true">→</span>
+                                            </a>
+                            }
+                                </div>
+                            </div>
+                }
+                </div>
+        }
+        else
+        {
+                <div class="rounded-2xl border border-dashed border-slate-200 bg-white p-10 text-center">
+                    <p class="text-sm font-semibold text-slate-900">No trainers listed</p>
+                    <p class="mt-1 text-sm text-slate-600">Please check back later.</p>
+                </div>
+        }
+    </div>
+</div>
+

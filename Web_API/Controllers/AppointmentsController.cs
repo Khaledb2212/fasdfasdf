@@ -378,54 +378,88 @@ namespace Web_API.Controllers
         }
 
 
-        //https://localhost:7085/api/Appointments/Approve?id=
-        [Authorize(Roles = "Admin, Trainer")]
-        [HttpPut("Approve", Name = "Approve")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Approve(int id)
+        ////https://localhost:7085/api/Appointments/Approve?id=
+        //[Authorize(Roles = "Admin, Trainer")]
+        //[HttpPut("Approve", Name = "Approve")]
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        //public async Task<IActionResult> Approve(int id)
+        //{
+        //    if (id < 0)
+        //        return BadRequest("Id is wrong in the approve method");
+
+        //    var appt = await _context.Appointments.FindAsync(id);
+        //    if (appt == null)
+        //        return NotFound("This appointment could not be found");
+
+        //    if(!User.IsInRole("Admin") && User.IsInRole("Trainer"))
+        //    {
+        //        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //        if (string.IsNullOrWhiteSpace(userId))
+        //            return Unauthorized();
+
+        //        var person = await _context.People.FirstOrDefaultAsync(p => p.UserId == userId);
+        //        if (person == null) return BadRequest("No Person profile found.");
+
+        //        var trainer = await _context.Trainers.FirstOrDefaultAsync(t => t.PersonID == person.PersonID);
+        //        if (trainer == null) return Forbid();
+
+        //        if (appt.TrainerID != trainer.TrainerID)
+        //            return Forbid("You can only approve your own appointments.");
+        //    }
+        //    appt.IsApproved = true;
+        //    await _context.SaveChangesAsync();
+
+        //    return Ok(new { Message = "Approved", appt.AppointmentID });
+        //}
+
+        // PUT: https://localhost:7085/api/Appointments/Approve?id=123
+        [Authorize(Roles = "Trainer")]
+        [HttpPut("Approve")]
+        public async Task<IActionResult> Approve([FromQuery] int id)
         {
-            if (id < 0)
-                return BadRequest("Id is wrong in the approve method");
+            if (id <= 0) return BadRequest("Invalid appointment id.");
 
-            var appt = await _context.Appointments.FindAsync(id);
-            if (appt == null)
-                return NotFound("This appointment could not be found");
+            // 1) Get logged-in Identity UserId from the cookie (shared auth)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
 
-            if(!User.IsInRole("Admin") && User.IsInRole("Trainer"))
-            {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if (string.IsNullOrWhiteSpace(userId))
-                    return Unauthorized();
+            // 2) Map Identity user -> Person -> Trainer
+            var person = await _context.People.FirstOrDefaultAsync(p => p.UserId == userId);
+            if (person == null) return BadRequest("No Person profile found for this user.");
 
-                var person = await _context.People.FirstOrDefaultAsync(p => p.UserId == userId);
-                if (person == null) return BadRequest("No Person profile found.");
+            var trainer = await _context.Trainers.FirstOrDefaultAsync(t => t.PersonID == person.PersonID);
+            if (trainer == null) return BadRequest("You are not registered as a Trainer.");
 
-                var trainer = await _context.Trainers.FirstOrDefaultAsync(t => t.PersonID == person.PersonID);
-                if (trainer == null) return Forbid();
+            // 3) Load appointment + verify it belongs to THIS trainer
+            var appt = await _context.Appointments.FirstOrDefaultAsync(a => a.AppointmentID == id);
+            if (appt == null) return NotFound($"Appointment {id} not found.");
 
-                if (appt.TrainerID != trainer.TrainerID)
-                    return Forbid("You can only approve your own appointments.");
-            }
+            if (appt.TrainerID != trainer.TrainerID)
+                return Forbid(); // 403 (trying to approve someone else's appointment)
+
+            // 4) Approve
+            if (appt.IsApproved)
+                return Ok(new { message = "Already approved." });
+
             appt.IsApproved = true;
             await _context.SaveChangesAsync();
 
-            return Ok(new { Message = "Approved", appt.AppointmentID });
+            return Ok(new { message = "Approved successfully." });
         }
-
 
         // https://localhost:7085/api/Appointments/ 
         [Authorize(Roles = "Trainer")]
         [HttpGet("MyTrainerAppointments")]
-        public async Task<IActionResult> MyTrainerAppointments(bool pendingOnly = false, bool upcomingOnly = false)
+        public async Task<IActionResult> MyTrainerAppointments([FromQuery] bool pendingOnly = false, [FromQuery] bool upcomingOnly = false)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrWhiteSpace(userId)) return Unauthorized();
 
             var person = await _context.People.FirstOrDefaultAsync(p => p.UserId == userId);
-            if (person == null) return BadRequest("No Person profile found.");
+            if (person == null) return BadRequest("No Person profile found for this user.");
 
             var trainer = await _context.Trainers.FirstOrDefaultAsync(t => t.PersonID == person.PersonID);
             if (trainer == null) return BadRequest("You are not registered as a Trainer.");
@@ -437,7 +471,7 @@ namespace Web_API.Controllers
                 .AsQueryable();
 
             if (pendingOnly)
-                q = q.Where(a => !a.IsApproved);
+                q = q.Where(a => a.IsApproved == false);
 
             if (upcomingOnly)
                 q = q.Where(a => a.StartTime >= DateTime.Now);
@@ -446,19 +480,18 @@ namespace Web_API.Controllers
                 .OrderBy(a => a.StartTime)
                 .Select(a => new
                 {
-                    a.AppointmentID,
-                    a.StartTime,
-                    a.EndTime,
-                    a.IsApproved,
-                    a.Fee,
-                    MemberName = a.Member.person.Firstname + " " + a.Member.person.Lastname,
-                    ServiceName = a.Service.ServiceName
+                    appointmentID = a.AppointmentID,
+                    startTime = a.StartTime,
+                    endTime = a.EndTime,
+                    isApproved = a.IsApproved,
+                    fee = a.Fee,
+                    memberName = a.Member.person.Firstname + " " + a.Member.person.Lastname,
+                    serviceName = a.Service.ServiceName
                 })
                 .ToListAsync();
 
             return Ok(list);
         }
-
 
         //https://localhost:7085/api/Appointments/CancelAppointment?id=
         [HttpDelete("CancelAppointment", Name = "CancelAppointment")]

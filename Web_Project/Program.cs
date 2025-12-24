@@ -55,9 +55,19 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<CookieForwardingHandler>();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Identity/Account/Login";
+
+    // CHANGE THIS LINE: Point to the Razor Page in the Identity Area
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+});
+
 builder.Services.AddHttpClient("WebApi", client =>
 {
     client.BaseAddress = new Uri("https://localhost:7085/"); // your Web_API base URL
+
+
 })
 .AddHttpMessageHandler<CookieForwardingHandler>();
 builder.Services.AddRazorPages();

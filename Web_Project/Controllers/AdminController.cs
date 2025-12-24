@@ -21,7 +21,7 @@ namespace Web_Project.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
-        // 1. DASHBOARD
+      
         [HttpGet]
         public IActionResult Index()
         { 
@@ -29,7 +29,7 @@ namespace Web_Project.Controllers
         }
 
 
-        // 2. LIST TRAINERS
+      
         [HttpGet]
         public async Task<IActionResult> Trainers()
         {
@@ -96,14 +96,9 @@ namespace Web_Project.Controllers
             return View(new List<TrainerDTO>());
         }
 
-        //// 3. CREATE TRAINER (GET)
-        //[HttpGet]
-        //public IActionResult CreateTrainer()
-        //{ 
-        //    return View(); 
-        //}
+       
 
-        // 3. CREATE TRAINER (GET)
+   
         [HttpGet]
         public async Task<IActionResult> CreateTrainer()
         {
@@ -127,68 +122,18 @@ namespace Web_Project.Controllers
             return View(model);
         }
 
-        //// 3. CREATE TRAINER (POST)
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> CreateTrainer(TrainerDTO dto)
-        //{
-        //    if (!ModelState.IsValid) return View(dto);
-        //
-        //    // A. Create Identity User
-        //    var user = new UserDetails { UserName = dto.Email, Email = dto.Email, EmailConfirmed = true };
-        //    var result = await _userManager.CreateAsync(user, dto.Password);
-        //
-        //    if (!result.Succeeded)
-        //    {
-        //        foreach (var error in result.Errors) ModelState.AddModelError("", error.Description);
-        //        return View(dto);
-        //    }
-        //
-        //    await _userManager.AddToRoleAsync(user, "Trainer");
-        //
-        //    // B. Create Person via API
-        //    var client = _httpClientFactory.CreateClient("WebApi");
-        //    var personData = new { UserId = user.Id, Firstname = dto.FirstName, Lastname = dto.LastName, Phone = dto.Phone, Email = dto.Email };
-        //
-        //    var personResp = await client.PostAsJsonAsync("api/People/PostPerson", personData);
-        //    if (!personResp.IsSuccessStatusCode)
-        //    {
-        //        await _userManager.DeleteAsync(user); // Cleanup
-        //        ModelState.AddModelError("", "Failed to save Person details.");
-        //        return View(dto);
-        //    }
-        //
-        //    var createdPerson = await personResp.Content.ReadFromJsonAsync<PersonIdHelper>();
-        //
-        //    // C. Create Trainer via API
-        //    var trainerData = new { PersonID = createdPerson.PersonID, ExpertiseAreas = dto.ExpertiseAreas, Description = dto.Description };
-        //    var trainerResp = await client.PostAsJsonAsync("api/Trainers/AddTrainer", trainerData);
-        //
-        //    if (trainerResp.IsSuccessStatusCode)
-        //    {
-        //        TempData["Success"] = $"Trainer {dto.FirstName} created!";
-        //        return RedirectToAction(nameof(Trainers));
-        //    }
-        //
-        //    ModelState.AddModelError("", "Failed to save Trainer details.");
-        //    return View(dto);
-        //}
-
-        // 3. CREATE TRAINER (POST)
-
-
-        // 3. CREATE TRAINER (POST)
+    
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateTrainer(TrainerDTO dto)
         {
-            // Reload services if validation fails
+           
             if (!ModelState.IsValid)
             {
                 return await CreateTrainer();
             }
 
-            // A. Create Identity User
+            // Create Identity User
             var user = new UserDetails { UserName = dto.Email, Email = dto.Email, EmailConfirmed = true };
             var result = await _userManager.CreateAsync(user, dto.Password);
 
@@ -205,8 +150,8 @@ namespace Web_Project.Controllers
             var personDto = new
             {
 
-                // Donot use User.FindFirstValue -> That is YOU (The Admin)
-                // Use 'user.Id' -> That is the NEW TRAINER
+                // Donot use User.FindFirstValue That is YOU (The Admin)
+                //That is the NEW TRAINER
                 UserId = user.Id,
                 Firstname = dto.FirstName,
                 Lastname = dto.LastName,
@@ -221,20 +166,20 @@ namespace Web_Project.Controllers
 
             if (!personResp.IsSuccessStatusCode)
             {
-                //Delete the user we just created so we don't have "ghost" logins
+                //Delete the user we just created
                 await _userManager.DeleteAsync(user);
 
-                //Read the REAL error message from the API
+               
                 var errorContent = await personResp.Content.ReadAsStringAsync();
 
-                //Show it to you
+               
                 ModelState.AddModelError("", $"API Error: {personResp.StatusCode} - {errorContent}");
                 return await CreateTrainer();
             }
 
             var createdPerson = await personResp.Content.ReadFromJsonAsync<PersonIdHelper>();
 
-            //Create Trainer via API
+          
             var trainerData = new { PersonID = createdPerson.PersonID, ExpertiseAreas = dto.ExpertiseAreas, Description = dto.Description };
             var trainerResp = await client.PostAsJsonAsync("api/Trainers/AddTrainer", trainerData);
 
@@ -262,111 +207,20 @@ namespace Web_Project.Controllers
                 return RedirectToAction(nameof(Trainers));
             }
 
-            // If Trainer creation fails, log that too
+            
             var trainerError = await trainerResp.Content.ReadAsStringAsync();
             ModelState.AddModelError("", $"Failed to save Trainer details. API says: {trainerError}");
             return await CreateTrainer();
         }
 
-        //// 4. EDIT TRAINER (GET)
-        //[HttpGet]
-        //public async Task<IActionResult> EditTrainer(int id)
-        //{
-        //    var client = _httpClientFactory.CreateClient("WebApi");
-        //    // Correct URL with query string
-        //    var response = await client.GetAsync($"api/Trainers/GetTrainer?id={id}");
-        //
-        //    if (!response.IsSuccessStatusCode) return NotFound();
-        //
-        //    var item = await response.Content.ReadFromJsonAsync<JsonElement>();
-        //
-        //    // HELPER: Try to get property with Upper OR Lower case to avoid crashes
-        //    string GetStr(JsonElement el, string key)
-        //    {
-        //        if (el.TryGetProperty(key, out var val) && val.ValueKind == JsonValueKind.String) return val.GetString();
-        //        if (el.TryGetProperty(char.ToUpper(key[0]) + key.Substring(1), out var val2) && val2.ValueKind == JsonValueKind.String) return val2.GetString();
-        //        return "";
-        //    }
-        //
-        //    int GetInt(JsonElement el, string key)
-        //    {
-        //        if (el.TryGetProperty(key, out var val)) return val.GetInt32();
-        //        if (el.TryGetProperty(char.ToUpper(key[0]) + key.Substring(1), out var val2)) return val2.GetInt32();
-        //        return 0;
-        //    }
-        //
-        //    // Manual Map: API JSON -> TrainerDTO
-        //    var dto = new TrainerDTO
-        //    {
-        //        TrainerID = GetInt(item, "trainerID"),
-        //        ExpertiseAreas = GetStr(item, "expertiseAreas"),
-        //        Description = GetStr(item, "description")
-        //    };
-        //
-        //    // Safely handle nested Person data
-        //    JsonElement person;
-        //    if (item.TryGetProperty("person", out person) || item.TryGetProperty("Person", out person))
-        //    {
-        //        dto.PersonID = GetInt(person, "personID");
-        //        dto.FirstName = GetStr(person, "firstname");
-        //        dto.LastName = GetStr(person, "lastname");
-        //        dto.Phone = GetStr(person, "phone");
-        //
-        //        // CRITICAL FIX: Don't crash if Email is missing
-        //        var email = GetStr(person, "email");
-        //        dto.Email = string.IsNullOrEmpty(email) ? "Registered User (Identity)" : email;
-        //    }
-        //
-        //    return View(dto);
-        //}
-        //
-        //// 5. EDIT TRAINER (POST)
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> EditTrainer(TrainerDTO dto)
-        //{
-        //    // IMPORTANT: Remove Password validation because we don't require it for updates
-        //    ModelState.Remove("Password");
-        //
-        //    if (!ModelState.IsValid) return View(dto);
-        //
-        //    var client = _httpClientFactory.CreateClient("WebApi");
-        //
-        //    var updateDto = new
-        //    {
-        //        TrainerID = dto.TrainerID,
-        //        PersonID = dto.PersonID,
-        //        ExpertiseAreas = dto.ExpertiseAreas,
-        //        Description = dto.Description,
-        //        FirstName = dto.FirstName,
-        //        LastName = dto.LastName,
-        //        Phone = dto.Phone
-        //    };
-        //
-        //    var response = await client.PutAsJsonAsync($"api/Trainers/UpdateTrainer?id={dto.TrainerID}", updateDto);
-        //
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        TempData["Success"] = "Trainer updated successfully!";
-        //        return RedirectToAction(nameof(Trainers));
-        //    }
-        //
-        //    ModelState.AddModelError("", "Failed to update trainer.");
-        //    return View(dto);
-        //}
-
-        // 6. DELETE TRAINER
-
-        // 4. EDIT TRAINER (GET) - NOW INCLUDES SKILLS
+      
 
         [HttpGet]
         public async Task<IActionResult> EditTrainer(int id)
         {
             var client = _httpClientFactory.CreateClient("WebApi");
 
-            // ---------------------------------------------------------
-            // 1. Fetch the Trainer Data
-            // ---------------------------------------------------------
+   
             var response = await client.GetAsync($"api/Trainers/GetTrainer?id={id}");
 
             if (!response.IsSuccessStatusCode)
@@ -374,15 +228,11 @@ namespace Web_Project.Controllers
                 return NotFound($"Trainer not found (API Error: {response.StatusCode})");
             }
 
-            // USE THE NEW HELPER CLASS HERE:
-            // We read into 'ApiTrainer' because it matches the nested JSON structure.
+        
             var apiTrainer = await response.Content.ReadFromJsonAsync<Web_Project.Models.ApiTrainer>();
 
             if (apiTrainer == null) return NotFound();
 
-            // ---------------------------------------------------------
-            // 2. Fetch All Services (for the "Add Skill" dropdown)
-            // ---------------------------------------------------------
             var services = new List<ServiceDTO>();
             var servicesResp = await client.GetAsync("api/Services/GetServices"); 
             if (servicesResp.IsSuccessStatusCode)
@@ -390,9 +240,7 @@ namespace Web_Project.Controllers
                 services = await servicesResp.Content.ReadFromJsonAsync<List<ServiceDTO>>() ?? new List<ServiceDTO>();
             }
 
-            // ---------------------------------------------------------
-            // 3. MAP Nested Data -> Flat DTO
-            // ---------------------------------------------------------
+    
             var dto = new TrainerDTO
             {
                 TrainerID = apiTrainer.TrainerID,
@@ -404,19 +252,19 @@ namespace Web_Project.Controllers
                 Phone = apiTrainer.Person?.Phone,
                 Email = apiTrainer.Person?.Email,
 
-                // Map Trainer info
+                
                 ExpertiseAreas = apiTrainer.ExpertiseAreas,
                 Description = apiTrainer.Description,
 
-                // Map Skills (This fixes the "Invisible Skills" issue)
+                
                 AssignedSkills = apiTrainer.Skills?.Select(s => new TrainerSkillItem
                 {
-                    Id = s.TrainerSkillID,       // The Link ID (needed for delete)
-                    ServiceId = s.ServiceID,     // The Service ID
-                    ServiceName = s.Service?.ServiceName ?? "Unknown" // The Name
+                    Id = s.TrainerSkillID,      
+                    ServiceId = s.ServiceID,    
+                    ServiceName = s.Service?.ServiceName ?? "Unknown" 
                 }).ToList() ?? new List<TrainerSkillItem>(),
 
-                // Populate the dropdown list
+                // dropdown list
                 AvailableServices = services.Select(s => new SelectListItem
                 {
                     Value = s.ServiceID.ToString(),
@@ -427,15 +275,15 @@ namespace Web_Project.Controllers
             return View(dto);
         }
 
-        // 5. EDIT TRAINER (POST) - Updates Profile Info
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditTrainer(TrainerDTO dto)
         {
             ModelState.Remove("Password");
-            ModelState.Remove("AssignedSkills"); // Don't validate these on profile save
+            ModelState.Remove("AssignedSkills"); 
 
-            if (!ModelState.IsValid) return await EditTrainer(dto.TrainerID); // Reload page with data
+            if (!ModelState.IsValid) return await EditTrainer(dto.TrainerID); 
 
             var client = _httpClientFactory.CreateClient("WebApi");
             var updateDto = new
@@ -456,11 +304,11 @@ namespace Web_Project.Controllers
             else
                 TempData["Error"] = "Update failed.";
 
-            // Redirect back to the SAME Edit page to see changes
+            
             return RedirectToAction(nameof(EditTrainer), new { id = dto.TrainerID });
         }
 
-        // --- NEW HELPER ACTIONS FOR SKILL CRUD ---
+      
 
         [HttpPost]
         public async Task<IActionResult> AddSkillToTrainer(int trainerId, int serviceId)
@@ -501,7 +349,7 @@ namespace Web_Project.Controllers
             return RedirectToAction(nameof(Trainers));
         }
 
-        // 7. TRAINER DETAILS (GET)
+       
         [HttpGet]
         public async Task<IActionResult> TrainerDetails(int id)
         {
@@ -572,11 +420,7 @@ namespace Web_Project.Controllers
         }
         
         
-        // ==========================================
-        // SERVICES MANAGEMENT
-        // ==========================================
-
-        // 1. LIST SERVICES
+    
         [HttpGet]
         public async Task<IActionResult> Services()
         {
@@ -593,14 +437,14 @@ namespace Web_Project.Controllers
             return View(new List<ServiceDTO>());
         }
 
-        // 2. CREATE SERVICE (GET)
+        
         [HttpGet]
         public IActionResult CreateService()
         {
             return View();
         }
 
-        // 2. CREATE SERVICE (POST)
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateService(ServiceDTO dto)
@@ -622,13 +466,13 @@ namespace Web_Project.Controllers
             return View(dto);
         }
 
-        // 3. EDIT SERVICE (GET)
+        
         [HttpGet]
         public async Task<IActionResult> EditService(int id)
         {
             var client = _httpClientFactory.CreateClient("WebApi");
 
-            // API uses Query String: ?id=
+            
             var response = await client.GetAsync($"api/Services/GetService?id={id}");
 
             if (!response.IsSuccessStatusCode) return NotFound();
@@ -639,7 +483,7 @@ namespace Web_Project.Controllers
             return View(service);
         }
 
-        // 3. EDIT SERVICE (POST)
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditService(ServiceDTO dto)
@@ -648,7 +492,7 @@ namespace Web_Project.Controllers
 
             var client = _httpClientFactory.CreateClient("WebApi");
 
-            // API uses PUT "api/Services/PutService?id="
+         
             var response = await client.PutAsJsonAsync($"api/Services/PutService?id={dto.ServiceID}", dto);
 
             if (response.IsSuccessStatusCode)
@@ -661,14 +505,14 @@ namespace Web_Project.Controllers
             return View(dto);
         }
 
-        // 4. DELETE SERVICE
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteService(int id)
         {
             var client = _httpClientFactory.CreateClient("WebApi");
 
-            // API uses DELETE "api/Services/DeleteService?id="
+            
             var response = await client.DeleteAsync($"api/Services/DeleteService?id={id}");
 
             if (response.IsSuccessStatusCode)
@@ -679,7 +523,7 @@ namespace Web_Project.Controllers
             return RedirectToAction(nameof(Services));
         }
 
-        // 5. SERVICE DETAILS
+       
         [HttpGet]
         public async Task<IActionResult> ServiceDetails(int id)
         {
@@ -698,7 +542,7 @@ namespace Web_Project.Controllers
             return View(service);
         }
 
-        // Helper class for Person ID response
+       
         public class PersonIdHelper { public int PersonID { get; set; } }
     }
 }
